@@ -1,0 +1,7 @@
+package com. gubs.testDrools
+rule "Account balance is less than 100"
+ when
+   $account : Account(balance < 100) // condition 
+ then
+   System.out.println("Account number : " + $account.getId() + " is below 100");
+ end

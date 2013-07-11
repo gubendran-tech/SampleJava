@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    
+ <bean id="dataSource"
+class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+   <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+   <property name="url" value="jdbc:mysql://172.26.3.46:3306/sms_dev_db"/>
+   <property name="username" value="qa_admin_user"/>
+   <property name="password" value="petra123"/>
+</bean>
+
+ <bean id="springCollection" class="com.gubs.springTutorial.SpringCollection">
+ 	<property name="dataSource" ref="dataSource" />
+ 	
+	<property name="addressProp">
+        <props>
+           <prop key="one">INDIA</prop>
+           <prop key="two">Pakistan</prop>
+           <prop key="three">USA</prop>
+           <prop key="four">USA</prop>
+        </props>
+      </property>
+      
+      <property name="addressList">
+      	<list>
+      	  <value>INDIA</value>
+      	  <value>PAK</value>
+      	  <value>SAUDI</value>
+      	</list>
+      </property>
+      
+      <property name="addressMap">
+      	<map>
+      		<entry key="india" value="tryToGood"></entry>
+      		<entry key="pak" value="terrors"></entry>
+      	</map>
+      </property>
+      
+      <property name="addressSet">
+      	<set>
+      		<value>INDIA</value>
+      		<value>PAK</value>
+      	</set>
+      </property>
+ </bean>
+ 
+ </beans>

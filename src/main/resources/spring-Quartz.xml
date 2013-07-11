@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+      http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-3.0.xsd
+      http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+      
+  <!--  http://www.mkyong.com/spring/spring-quartz-scheduler-example/  -->
+  
+  <context:property-placeholder
+   location="classpath:quartz-${run.env:local}.properties"  ignore-unresolvable="true"/> 
+   
+   <bean id="runMeTask" class="com.gubs.springQuartz.RunMeTask">
+   	<constructor-arg value="gubendran lakshmanan"></constructor-arg>
+   </bean>
+   
+   <bean id="runMeJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+   		<property name="targetObject" ref="runMeTask"></property>
+   		<property name="targetMethod" value="printMe"></property>
+   </bean>
+   
+   <!-- 
+   <bean name="runMeJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+ 
+	<property name="jobClass" value="com.gubs.springQuartz.RunMeJob" />
+ 
+	<property name="jobDataAsMap">
+		<map>
+			<entry key="runMeTask" value-ref="runMeTask" />
+		</map>
+	</property>
+ 
+</bean>
+ -->
+      <!-- Simple Trigger, run every 5 seconds -->
+      <!-- 
+	<bean id="simpleTrigger" 
+                class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+ 
+		<property name="jobDetail" ref="runMeJob" />
+		<property name="repeatInterval" value="5000" />
+		<property name="startDelay" value="1000" />
+ 
+	</bean>
+	 -->
+	 
+   <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+   		<property name="jobDetail" ref="runMeJob"></property>
+   		<property name="cronExpression" value="${quartz.cronExpression}"></property>
+   </bean>
+   
+   <!--  scheduler Factory - Scheduler factory bean to integrate both job detail and trigger together-->
+   <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+   		<property name="jobDetails">
+   			<list>
+   				<ref bean="runMeJob" />
+   			</list>
+   		</property>
+   		
+   		<property name="triggers">
+   			<list>
+   				<ref bean="cronTrigger"/>
+   			</list>
+   		</property>
+   </bean>
+
+	<!--  schedule jobs using schedule Task -->
+	<bean id="springScheduleTask" class="com.gubs.springQuartz.SpringScheduleTask" />	
+	
+<!-- 	<task:annotation-driven executor="myExecutor" scheduler="myScheduler"/> -->
+	
+<!-- 	<task:executor id="executorWithCallerRunsPolicy" -->
+<!--                pool-size="5-25" -->
+<!--                queue-capacity="100" -->
+<!--                rejection-policy="CALLER_RUNS"/> -->
+               
+   <task:scheduled-tasks scheduler="myScheduler">
+    <task:scheduled ref="springScheduleTask" method="scheduleTask" fixed-delay="30000"/>
+	</task:scheduled-tasks>
+	
+	<task:scheduler id="myScheduler" pool-size="10" />
+	
+	<!--  Quartz method -->
+  <bean id="quartzJobCreation" class="com.gubs.springQuartz.QuartzJobCreation" init-method="execute">
+  	<property name="scheduleFactory" ref="scheduleFactory" />
+   </bean>
+   
+   	<bean id="scheduleFactory"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+
+		<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.scheduler.instanceName">SMSQuartzScheduler</prop>
+				<prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
+				<prop key="org.quartz.threadPool.threadCount">75</prop>
+				<prop key="org.quartz.threadPool.threadPriority">5</prop>
+				<prop
+					key="org.quartz.threadPool.threadsInheritContextClassLoaderOfInitializingThread">true</prop>
+				<prop key="org.quartz.jobStore.misfireThreshold">60000</prop>
+			</props>
+		</property>
+	</bean>
+   
+ </beans>
