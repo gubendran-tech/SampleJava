@@ -221,5 +221,6 @@
 	<classpathentry kind="lib" path="/lib/XmlSchema-1.4.7.jar"/>
 	<classpathentry kind="lib" path="/lib/zookeeper-3.3.2.jar"/>
 	<classpathentry kind="lib" path="/home/gubs/Downloads/sqljdbc/sqljdbc_2.0/enu/sqljdbc4.jar"/>
+	<classpathentry kind="lib" path="/home/gubs/Downloads/json-20090211.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

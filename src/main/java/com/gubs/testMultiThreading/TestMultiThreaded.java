@@ -15,11 +15,29 @@ public class TestMultiThreaded {
    * @param args
    */
   public static void main(String[] args) {
-    for (int i = 0; i <= 5; i++) {
-      createChildThread(i);
+
+    while (true) {
+      // Check the threadCount
+      checkThreadCount();
+
+      for (int i = 0; i <= 5; i++) {
+        createChildThread(i);
+      }
+
+      // This sleep is to kick the next thread again for the same
+      try {
+        Thread.sleep(2000);
+      } catch (InterruptedException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     }
-    // This is to check if the threadAlreadyRunning so don't submit again.
-    createChildThread(3);
+
+  }
+
+  private static void checkThreadCount() {
+    int threadSize = Thread.getAllStackTraces().size();
+    System.out.println(threadSize);
   }
 
   private static void createChildThread(int id) {
@@ -51,9 +69,9 @@ class ThreadTest implements Runnable {
   public void run() {
     System.out.println("Thread Name.." + Thread.currentThread().getName());
 
-    if (Thread.currentThread().getName().equals("Gubs_3")) {
+    if (Thread.currentThread().getName().equals("Gubs_3") || Thread.currentThread().getName().equals("Gubs_4")) {
       try {
-        Thread.sleep(2000000);
+        Thread.sleep(2000);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
