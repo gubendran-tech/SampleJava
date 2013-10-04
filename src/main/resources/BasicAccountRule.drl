@@ -1,7 +1,7 @@
 package com. gubs.testDrools
-rule "Account balance is less than 100"
+rule "Account voltage is less than configuredV"
  when
-   $account : Account(balance < 100) // condition 
+   $account : Account(voltage > (1.10 * configuredV)) // condition 
  then
-   System.out.println("Account number : " + $account.getId() + " is below 100");
+   System.out.println("Account number : " + $account.getId() + " is below voltage");
  end

@@ -30,6 +30,12 @@ public class JavaBasics {
 
   public static void main(String[] args) throws IOException, ParseException {
 
+    double volt = 99.97;
+    double confV = 99.98;
+
+    if (confV > volt) {
+      System.out.println("Coming..");
+    }
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.MILLISECOND, 300000);
     System.out.println(cal.getTime());

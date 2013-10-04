@@ -65,9 +65,8 @@ public class ConvertJSONToCSV {
       str.append(jsonObj.get("recurrence").toString() + ",");
 
       String time = jsonObj.get("time").toString();
-      time = time.replaceAll("2013-08-02.", "");
-      time = time.replaceAll("2013-08-03.", "");
-      time = time.replaceAll(".00.000", "");
+      // 2013-08-02.10.45.00.000 (Regexp below for this format)
+      time = time.replaceAll("\\d+-\\d+-\\d+.(\\d+.\\d+).*", "$1");
 
       str.append(time + ",");
 
