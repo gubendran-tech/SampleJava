@@ -32,6 +32,11 @@ public class JavaBasics {
 
     double volt = 99.97;
     double confV = 99.98;
+    
+    List<String> str = Lists.newArrayList("gubs", "sai", "kavi");
+    for(int i=0; i <= 2; i++) {
+    	System.out.println(str.get(i));
+    }
 
     if (confV > volt) {
       System.out.println("Coming..");
