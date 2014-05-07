@@ -49,15 +49,11 @@
 	<classpathentry kind="lib" path="/lib/commons-net-1.4.1.jar"/>
 	<classpathentry kind="lib" path="/lib/commons-pool-1.5.5.jar"/>
 	<classpathentry kind="lib" path="/lib/concurrent.jar"/>
-	<classpathentry kind="lib" path="/lib/cxf-2.3.2.jar"/>
 	<classpathentry kind="lib" path="/lib/dao-1.0.0.jar"/>
 	<classpathentry kind="lib" path="/lib/dao-hibernate-1.0.0.jar"/>
 	<classpathentry kind="lib" path="/lib/dom4j.jar"/>
 	<classpathentry kind="lib" path="/lib/dpHibernate1.0.17.jar"/>
 	<classpathentry kind="lib" path="/lib/ecj-3.7.1.jar"/>
-	<classpathentry kind="lib" path="/lib/ehcache-core-ee-2.4.6.jar"/>
-	<classpathentry kind="lib" path="/lib/ehcache-spring-annotations-1.2.0.jar"/>
-	<classpathentry kind="lib" path="/lib/ehcache-terracotta-ee-2.4.6.jar"/>
 	<classpathentry kind="lib" path="/lib/el-api.jar"/>
 	<classpathentry kind="lib" path="/lib/flex-messaging-common.jar"/>
 	<classpathentry kind="lib" path="/lib/flex-messaging-core.jar"/>
@@ -139,7 +135,6 @@
 	<classpathentry kind="lib" path="/lib/mockito-all-1.8.5.jar"/>
 	<classpathentry kind="lib" path="/lib/mvel.jar"/>
 	<classpathentry kind="lib" path="/lib/mysql-connector-java-5.1.20.jar"/>
-	<classpathentry kind="lib" path="/lib/neethi-2.0.4.jar"/>
 	<classpathentry kind="lib" path="/lib/netty.jar"/>
 	<classpathentry kind="lib" path="/lib/objenesis-1.2.jar"/>
 	<classpathentry kind="lib" path="/lib/opencsv-2.2.jar"/>
@@ -202,7 +197,6 @@
 	<classpathentry kind="lib" path="/lib/stax-api-1.0.1.jar"/>
 	<classpathentry kind="lib" path="/lib/stax2-api-3.0.2.jar"/>
 	<classpathentry kind="lib" path="/lib/SuperCSV-1.52.jar"/>
-	<classpathentry kind="lib" path="/lib/terracotta-toolkit-1.3-runtime-ee-3.3.0.jar"/>
 	<classpathentry kind="lib" path="/lib/thrift-0.2.0.jar"/>
 	<classpathentry kind="lib" path="/lib/tomcat-api.jar"/>
 	<classpathentry kind="lib" path="/lib/tomcat-coyote.jar"/>
@@ -220,7 +214,5 @@
 	<classpathentry kind="lib" path="/lib/xmlenc-0.52.jar"/>
 	<classpathentry kind="lib" path="/lib/XmlSchema-1.4.7.jar"/>
 	<classpathentry kind="lib" path="/lib/zookeeper-3.3.2.jar"/>
-	<classpathentry kind="lib" path="/home/gubs/Downloads/sqljdbc/sqljdbc_2.0/enu/sqljdbc4.jar"/>
-	<classpathentry kind="lib" path="/home/gubs/Downloads/json-20090211.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

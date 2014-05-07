@@ -1,38 +1,89 @@
 package com.gubs.basicJava;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.Period;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.Days;
+import org.joda.time.Hours;
+import org.joda.time.Weeks;
+import org.joda.time.Years;
 
 public class JavaDate {
 
 	public static void main(String args[]) {
 		 testTimeZone();
-		 diffDateTime();
+    try {
+      diffDateTime();
+      weekDays();
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
 	}
 
-	private static void diffDateTime() {
-		String dateStart = "2013-02-01 09:32";
-		String dateStop = "2013-02-02 11:36";
+  private static void weekDays() {
+    String dateStart = "2014-02-10 09:32";
+    String dateStop = "2014-05-04 11:36";
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    Date d1 = null, d2 = null;
+    try {
+      d1 = sdf.parse(dateStart);
+      d2 = sdf.parse(dateStop);
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    DateTime dt1 = new DateTime(d1);
+    DateTime dt2 = new DateTime(d2);
+    int weekDays = 0;
+    while (dt1.isBefore(dt2)) {
+      // dayofWeek return int based on the days
+      if (dt1.getDayOfWeek() <= 5) {
+        weekDays = weekDays + 1;
+      }
+      dt1 = dt1.plusDays(1);
+
+      System.out.println("Date " + dt1.toString());
+    }
+
+    System.out.println("Week Days " + weekDays);
+
+  }
+
+  private static void diffDateTime() throws ParseException {
+    String dateStart = "2014-02-10 09:32";
+    String dateStop = "2014-05-04 11:36";
 		
-		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-mm-dd HH:mm");
+    // DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-mm-dd HH:mm");
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    Date d1 = sdf.parse(dateStart);
+    Date d2 = sdf.parse(dateStop);
 		
-		DateTime d1 = null;
-		DateTime d2 = null;
+    DateTime dt1 = new DateTime(d1);
+    DateTime dt2 = new DateTime(d2);
+ 		
 		
-		d1 = dtf.parseDateTime(dateStart);
-		d2 = dtf.parseDateTime(dateStop);
-		
-		Period period = new Period(d1, d2);
-	    System.out.println("Difference between Days " + period.getDays());
-	    System.out.println("Difference between Hours " + period.getHours());
-	    System.out.println("Difference between minutes " + period.getMinutes());
-	    System.out.println("Difference between seconds " + period.getSeconds());
+    /*
+     * Period period = new Period(d1, d2); System.out.println("Difference between Days " + period.getDays());
+     * System.out.println("Difference between Hours " + period.getHours());
+     * System.out.println("Difference between minutes " + period.getMinutes());
+     * System.out.println("Difference between seconds " + period.getSeconds());
+     */
+    System.out.println("Years between " + Years.yearsBetween(dt1, dt2).getYears());
+
+    System.out.println("Days between " + Days.daysBetween(dt1, dt2).getDays());
+
+    System.out.println("Hours between " + Hours.hoursBetween(dt1, dt2).getHours());
+    
+    System.out.println("Weeks between " + Weeks.weeksBetween(dt1, dt2).getWeeks());
 		
 	}
 
