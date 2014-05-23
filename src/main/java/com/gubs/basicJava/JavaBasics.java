@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,12 +14,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.ListUtils;
-import org.apache.hadoop.thirdparty.guava.common.base.Splitter;
-import org.apache.hadoop.thirdparty.guava.common.collect.Sets;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
+import com.google.common.collect.Sets;
 
 public class JavaBasics {
 
@@ -30,6 +29,9 @@ public class JavaBasics {
 
   public static void main(String[] args) throws IOException, ParseException {
 
+    String[] levels = "H1".split("H");
+    System.out.println("H" + levels[1]);
+    System.out.println("Code Owner.." + EnumTest.CODE_OWNER.getName());
     double volt = 99.97;
     double confV = 99.98;
     

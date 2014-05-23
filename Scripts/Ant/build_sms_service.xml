@@ -1,0 +1,55 @@
+<project name="SMSService" basedir="." default="main">
+
+	<description>
+		Ant build script for intelliview SMSService project
+	</description>
+
+	<property name="base.dir" value="../../SMSService" />
+	<property name="src.dir" value="${base.dir}/src/main/java" />
+	<property name="src.resource.dir" value="${base.dir}/src/main/resources" />
+	<property name="build.dir" value="build" />
+	<property name="classes.dir" value="${build.dir}/classes" />
+    <property name="war.dir" value="${build.dir}/war" />
+	<property name="lib.dir" value="../../lib" />
+	<property name="war.webxml" value="${base.dir}/WebContent/WEB-INF/web.xml" />
+	<property name="war.webcontent" value="${base.dir}/WebContent" />
+	<property name="war.lib.dir" value="${war.webcontent}/WEB-INF/lib" />
+	<property name="deployment.dir" value="../../deployment" />
+
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+		<!-- Including SMSCommons SMSBusiness SMSServiceClient as well from deployment jar -->
+		<fileset dir="${deployment.dir}" includes="**/*.jar" />
+	</path>
+	
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="compile">
+    	<mkdir dir="${classes.dir}" />
+  		  <javac includeantruntime="false" srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" />
+    </target>
+	
+	<target name="war" depends="compile">
+		<mkdir dir="${war.dir}" />
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.resource.dir}">
+				<!-- <include name ="*.xml"/> -->
+				<!-- <exclude name="*.properties" /> -->
+			</fileset>
+		</copy>
+		<war destfile="${war.dir}/${ant.project.name}.war" webxml="${war.webxml}">
+			<fileset dir="${war.webcontent}" />
+			<classes dir="${classes.dir}" />	
+		</war>
+	</target>
+
+	<target name="distribute-war" depends="war">
+	  <copy file="${war.dir}/${ant.project.name}.war" todir="${deployment.dir}" />
+	   <antcall target="clean" />
+ 	</target>
+
+	<target name="main" depends="clean,distribute-war"/> 
+
+</project>

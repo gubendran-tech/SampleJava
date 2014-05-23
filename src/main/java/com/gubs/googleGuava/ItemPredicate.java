@@ -14,7 +14,6 @@ public class ItemPredicate implements Predicate<Item>{
 	private int id;
 	
 	public ItemPredicate(int id) {
-		super();
 		this.id = id;
 	}
 

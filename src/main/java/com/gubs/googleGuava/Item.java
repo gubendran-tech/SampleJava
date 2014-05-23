@@ -6,7 +6,7 @@ package com.gubs.googleGuava;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.apache.hadoop.thirdparty.guava.common.base.Preconditions;
+import com.google.common.base.Preconditions;
 
 /**
  * @author gubs

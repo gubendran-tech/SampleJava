@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -19,14 +20,16 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
+import com.google.common.collect.Ordering;
 
 /**
  * @author gubs
  * 
- *         http://tomjefferys.blogspot.com/2011/09/multimaps-google-guava.html
- *         http
- *         ://www.javacodegeeks.com/2011/09/google-guava-libraries-essentials
- *         .html http://java.dzone.com/articles/google-guava-goodness-matching
+ *         http://tomjefferys.blogspot.com/2011/09/multimaps-google-guava.html http
+ *         ://www.javacodegeeks.com/2011/09/google-guava-libraries-essentials .html
+ *         http://java.dzone.com/articles/google-guava-goodness-matching
+ * 
+ *         http://code.google.com/p/guava-libraries/wiki/OrderingExplained
  * 
  */
 public class GoogleGuavaExamples {
@@ -43,11 +46,48 @@ public class GoogleGuavaExamples {
 		predicateInGuavaString();
 		predicateInGuavaObject();
 		listCollections();
+    guavaOrdering();
 	}
 
-	/**
-	 *  Lists interface as so many good features for collections
-	 */
+	      /**
+   * 
+   * Quick => Ordering is Order by in DBMS. Compound helps for order by 2 columns.
+   * 
+   * Ordering is having implementation of Comparator. Were we can order the list comparing by nullFirst.
+   * onNatural, with onResultOf we can apply function and based on the same ordering compound which returns an
+   * ordering which uses the comparator to break ties
+   * 
+   * 
+   */
+  private static void guavaOrdering() {
+
+    List<String> strings = Lists.newArrayList("kavi", "gubendran", "sai");
+
+    Ordering<String> order = new Ordering<String>() {
+      public int compare(String left, String right) {
+        return left.compareToIgnoreCase(right);
+      }
+    };
+
+    List<String> ordered = order.immutableSortedCopy(strings);
+    System.out.println("Ordering in java.." + ordered.toString());
+
+    // You can do ordering by custom function code in it.
+    Ordering<String> orderFunction = Ordering.natural().onResultOf(new Function<String, Integer>() {
+      public Integer apply(String text) {
+        return text.length();
+      }
+    });
+
+    // String will be taken as input and sort / order by based on the length
+    List<String> stringsLengh = orderFunction.immutableSortedCopy(strings);
+    System.out.println("Ordering function " + stringsLengh.toString());
+
+  }
+
+  /**
+   * Lists interface as so many good features for collections
+   */
 	private static void listCollections() {
 		
 		// New mutable list creation
@@ -69,8 +109,10 @@ public class GoogleGuavaExamples {
 		items.add(new Item(1, "Gubs"));
 		items.add(new Item(2, "Kavitha"));
 		items.add(new Item(3, "Sai Theja"));
+    items.add(new Item(1, "Gubendran"));
 		
 		// Iterables.filter is the realHero. unfilteredType complete list, type to check the condition with passing construct attribute
+    // This filter will collect all the item which have Id 1.
 		List<Item> itemFound = Lists.newArrayList(Iterables.filter(items, new ItemPredicate(1)));
 		
 		// collections2 filter and i
