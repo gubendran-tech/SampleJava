@@ -13,7 +13,7 @@
   <!--  http://www.mkyong.com/spring/spring-quartz-scheduler-example/  -->
   
   <context:property-placeholder
-   location="classpath:quartz-${run.env:local}.properties"  ignore-unresolvable="true"/> 
+   location="classpath:gubs-${run.env:local}.properties"  ignore-unresolvable="true"/> 
    
    <bean id="runMeTask" class="com.gubs.springQuartz.RunMeTask">
    	<constructor-arg value="gubendran lakshmanan"></constructor-arg>

@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 import org.apache.commons.collections.ListUtils;
 
@@ -28,6 +29,12 @@ public class JavaBasics {
   // Integer.toBinaryString - http://www.tutorialspoint.com/java/lang/integer_tobinarystring.htm
 
   public static void main(String[] args) throws IOException, ParseException {
+
+    System.out.println("Default System TZ.." + TimeZone.getDefault());
+
+    String test = "gubs";
+    test = test.replace("$customerId", "0001");
+    System.out.println(test);
 
     String[] levels = "H1".split("H");
     System.out.println("H" + levels[1]);

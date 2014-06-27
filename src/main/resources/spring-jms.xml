@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+      http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-3.0.xsd
+      http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd"
+	default-autowire="no">
+
+  <context:property-placeholder
+   location="classpath:gubs-${run.env:local}.properties"  ignore-unresolvable="true"/> 
+   
+    <bean id="mqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="failover:(tcp://${mqPrimaryBrokerHost}:${mqPrimaryBrokerPort}?${mqConnProperties},tcp://${mqSecondaryBrokerHost}:${mqSecondaryBrokerPort}?${mqConnProperties})?${mqBrokerUrlProps}" />
+	    <property name="optimizeAcknowledge" value="true" />
+	</bean>
+	
+	<bean id="mqSingleConnectionFactory"
+		class="org.springframework.jms.connection.SingleConnectionFactory">
+		<constructor-arg ref="mqConnectionFactory" />
+		<property name="reconnectOnException" value="true" />
+	</bean>
+	
+	
+	<bean id="mqCachingConnectionFactory"
+		class="org.springframework.jms.connection.CachingConnectionFactory">
+		<constructor-arg ref="mqSingleConnectionFactory" />
+		<property name="sessionCacheSize" value="${mqSessionCacheSize}" />
+	</bean>
+	
+	
+	<bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="mqConnectionFactory" />
+		<!-- pubSubDomain is false because its for queue -->
+		<property name="pubSubDomain" value="false"/>
+	</bean>
+	
+	<bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="mqConnectionFactory" />
+		<property name="pubSubDomain" value="true"/>
+	</bean>
+	
+	<bean id="localTxnManager" class="org.springframework.jms.connection.JmsTransactionManager">
+    	<property name="connectionFactory" ref="mqSingleConnectionFactory" />
+	</bean>
+	
+	<bean id="testSpringJMSMQ" class="com.gubs.JMS.TestSpringJMSMQ" init-method="init">
+		<property name="queueName" value="${GUBS_TEST_QueueName}" />
+		<property name="topicName" value="${GUBS_TEST_TopicName}" />
+	</bean>
+	
+	<bean id="jmsMQProducer" name="jmsMQProducer"
+		class="com.gubs.JMS.JmsMQProducer">
+		<property name="jmsQueueTemplate" ref="jmsQueueTemplate" />
+		<property name="jmsTopicTemplate" ref="jmsTopicTemplate" />
+	</bean>
+	
+    <bean id="jmsMQConsumer" name="jmsMQConsumer"
+		class="com.gubs.JMS.JmsMQConsumer">
+	</bean>
+	
+	<!--  <jms:listener-container connection-factory="mqConnectionFactory" destination-type="queue" concurrency="100" prefetch="1" acknowledge="transacted" transaction-manager="localTxnManager" cache="consumer">
+		<jms:listener ref="jmsMQConsumer" method="handleMessage" destination="${GUBS_TEST_QueueName}" />
+	</jms:listener-container> -->
+</beans>

@@ -38,14 +38,16 @@ public class GoogleGuavaExamples {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		biMap();
-		multiMap();
-		multiSet();
-		iterables();
-		preConditions();
-		predicateInGuavaString();
-		predicateInGuavaObject();
-		listCollections();
+
+    biMap();
+    multiMap();
+    multiSet();
+    iterables();
+    preConditions();
+    predicateInGuavaString();
+    predicateInGuavaObject();
+    listCollections();
+
     guavaOrdering();
 	}
 
