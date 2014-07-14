@@ -68,59 +68,11 @@ public class DateUtils {
     return Years.yearsBetween(dt1, dt2).getYears();
   }
 
-  /**
-   * Returns the number of days difference between <code>t1</code> and <code>t2</code>.
-   * 
-   * @param t1
-   *          Time 1
-   * @param t2
-   *          Time 2
-   * @param checkOverflow
-   *          indicates whether to check for overflow
-   * @return Number of days between <code>start</code> and <code>end</code>
-   */
-  public static int getDaysDiff(long t1, long t2, boolean checkOverflow) {
-    if (t1 > t2) {
-      long tmp = t1;
-      t1 = t2;
-      t2 = tmp;
-    }
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTimeInMillis(t1);
-    int delta = 0;
-    while (calendar.getTimeInMillis() < t2) {
-      calendar.add(Calendar.DAY_OF_MONTH, 1);
-      delta++;
-    }
-    if (checkOverflow && (calendar.getTimeInMillis() > t2)) {
-      delta--;
-    }
-    return delta;
-  }
-
-  /**
-   * Returns the number of days difference between <code>t1</code> and <code>t2</code>.
-   * 
-   * @param t1
-   *          Time 1
-   * @param t2
-   *          Time 2
-   * @return Number of days between <code>start</code> and <code>end</code>
-   */
   public static int getDaysDiff(long t1, long t2) {
-    return getDaysDiff(t1, t2, true);
-  }
+    DateTime dt1 = new DateTime(t1);
+    DateTime dt2 = new DateTime(t2);
 
-  public static int getDateDifference(Date date1, Date date2) {
-
-    Calendar calendar1 = Calendar.getInstance();
-    Calendar calendar2 = Calendar.getInstance();
-    calendar1.setTime(date1);
-    calendar2.setTime(date2);
-    long t1 = calendar1.getTimeInMillis();
-    long t2 = calendar2.getTimeInMillis();
-
-    return getDaysDiff(t1, t2);
+    return Days.daysBetween(dt1, dt2).getDays();
   }
 
   public static String getDateInFormat(String strDateFormat, Date date) {

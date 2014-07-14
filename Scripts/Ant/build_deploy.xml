@@ -4,6 +4,7 @@
 		Copy the files from the Tomcat lib to the corresponding system directories
 	</description>
 
+	<!-- you can pass -propertyfile <file.name> -->
 	<property file="build.properties" /> 
 		
 	<property name="buildname" value="${buildname}"/>
@@ -14,40 +15,33 @@
 	<property name="scp.user.name" value="${scp.user.name}" />
 	<property name="scp.pwd.name" value="${scp.pwd.name}" />
 	<property name="scp.pwd.name1" value="${scp.pwd.name1}" />
-	<property name="portal.tomcat.dir" value="${portal.tomcat.dir}" />
+	<property name="tomcat.dir" value="${tomcat.dir}" />
+	<property name="deployment.dir" value="${deployment.dir}" />
 	<property name="lib.dir" value="${lib.dir}" />
-	<property name="portal.lib.dir" value="${tomcat.dir}/lib" />
+	<property name="tomcat.dir" value="${tomcat.dir}" />
+	<property name="new.tomcat.dir" value="${new.tomcat.dir}" />
 	<property name="batch.dir" value="${batch.dir}" />
 	<property name="commons.lib.dir" value="${commons.lib.dir}" />
-	<property name="business.lib.dir" value="${business.lib.dir}" />
 	<property name="analytics.dir" value="${analytics.dir}" />
   	<property name="reports.dir" value="${reports.dir}" />	
 
-	<target name="main" depends="a,b,r" description="Mail, Analytics, Batch, dataAggregator, portal, reports and scpFilesShutdown">
+	<target name="main" depends="a,b,r,m" description="Mail, Analytics, Batch, dataAggregator, portal, reports and scpFilesShutdown">
 	 
 		
 	</target>
 	
 	<target name="down" description="send release mail">
 	    <mail 
-			mailhost="172.22.1.38" from="neeraj.k@jeanmartin.com" tolist="Abhijitdc@jeanmartin.com,AnandsagarK@jeanmartin.com,gubs@jeanmartin.com,
-		    	eswaraiah.sivaiah@jeanmartin.com,ranjab@jeanmartin.com,hemanth@jeanmartin.com,iyappan.padmanabhan@jeanmartin.com,
-		    	mathivanan.thanigaivelu@jeanmartin.com,neeraj.k@jeanmartin.com,peter.leslie@jeanmartin.com,prabhakaran.dhakshinamoorthy@jeanmartin.com,
-		    	priya@jeanmartin.com,pugalarasan.gunasekaran@jeanmartin.com,radhika.mohandhas@jeanmartin.com,sakthipriya.vairamani@jeanmartin.com,
-	    	gubs@jeanmartin.com" subject="[HUDSON]::QA will be down for deployment">
-			<replyto address="neeraj.k@jeanmartin.com"/>
+			mailhost="${mail.host}" from="${from.address}" tolist="${to.address}" subject="[HUDSON]::${deployment.machine} will be down for deployment">
+			<replyto address="${from.address}"/>
 			  <message>The ${buildname} build is getting deployed</message>
 		   </mail>
 	</target>
 	
 	<target name="up" description="send release mail">
 	    <mail 
-			mailhost="172.22.1.38" from="neeraj.k@jeanmartin.com" tolist="Abhijitdc@jeanmartin.com,AnandsagarK@jeanmartin.com,gubs@jeanmartin.com,
-		    	eswaraiah.sivaiah@jeanmartin.com,ranjab@jeanmartin.com,hemanth@jeanmartin.com,iyappan.padmanabhan@jeanmartin.com,
-		    	mathivanan.thanigaivelu@jeanmartin.com,neeraj.k@jeanmartin.com,peter.leslie@jeanmartin.com,prabhakaran.dhakshinamoorthy@jeanmartin.com,
-		    	priya@jeanmartin.com,pugalarasan.gunasekaran@jeanmartin.com,radhika.mohandhas@jeanmartin.com,sakthipriya.vairamani@jeanmartin.com,
-	    	gubs@jeanmartin.com" subject="[HUDSON]::QA is up with latest build : ${buildname}">
-			<replyto address="neeraj.k@jeanmartin.com"/>
+			mailhost="${mail.host}" from="${from.address}" tolist="${to.address}" subject="[HUDSON]::${deployment.machine} is up with latest build : ${buildname}">
+			<replyto address="${from.address}"/>
 			  <message>The ${buildname} build is deployed</message>
 		   </mail>
 	</target>
@@ -64,16 +58,16 @@
 		<ant antfile="build_sms_analytics.xml" dir="." />
 		
 		<!-- analytics -->
-		<scp file="${lib.dir}/SMSAnalytics.jar" todir="${scp.user.name}:${scp.pwd.name}@${analytics.host.name}:${analytics.dir}"/>
+		<scp file="${deployment.dir}/SMSAnalytics.jar" todir="${scp.user.name}:${scp.pwd.name}@${analytics.host.name}:${analytics.dir}"/>
 	</target>
 	
 	<target name="b" depends="commons,business" description="Deploy Batch">
 		<ant antfile="build_sms_batch.xml" dir="." />
 		
 		<!-- batch -->
-		<scp file="${lib.dir}/SMSBatch.jar" todir="${scp.user.name}:${scp.pwd.name1}@${batch.host.name}:${batch.dir}"/>
-		<scp file="${lib.dir}/SMSCommons.jar" todir="${scp.user.name}:${scp.pwd.name1}@${batch.host.name}:${commons.lib.dir}"/>
-		<scp file="${lib.dir}/SMSBusiness.jar" todir="${scp.user.name}:${scp.pwd.name1}@${batch.host.name}:${business.lib.dir}"/>
+		<scp file="${deployment.dir}/SMSBatch.jar" todir="${scp.user.name}:${scp.pwd.name1}@${batch.host.name}:${batch.dir}"/>
+		<scp file="${deployment.dir}/SMSCommons.jar" todir="${scp.user.name}:${scp.pwd.name1}@${batch.host.name}:${commons.lib.dir}"/>
+		<scp file="${deployment.dir}/SMSBusiness.jar" todir="${scp.user.name}:${scp.pwd.name1}@${batch.host.name}:${commons.lib.dir}"/>
 		
 	</target>
 	
@@ -85,11 +79,58 @@
 		<ant antfile="build_sms_reports.xml" dir="." />
 		
 		<!-- reports -->
-        <scp file="${lib.dir}/SMSReports.jar" todir="${scp.user.name}:${scp.pwd.name}@${reports.host.name}:${reports.dir}"/>
-        <scp file="${lib.dir}/SMSBusiness.jar" todir="${scp.user.name}:${scp.pwd.name}@${reports.host.name}:${business.lib.dir}"/>
-        <scp file="${lib.dir}/SMSCommons.jar" todir="${scp.user.name}:${scp.pwd.name}@${reports.host.name}:${commons.lib.dir}"/>
+        <scp file="${deployment.dir}/SMSReports.jar" todir="${scp.user.name}:${scp.pwd.name}@${reports.host.name}:${reports.dir}"/>
+        <scp file="${deployment.dir}/SMSBusiness.jar" todir="${scp.user.name}:${scp.pwd.name}@${reports.host.name}:${commons.lib.dir}"/>
+        <scp file="${deployment.dir}/SMSCommons.jar" todir="${scp.user.name}:${scp.pwd.name}@${reports.host.name}:${commons.lib.dir}"/>
 			
 	</target>
+	
+		<target name="m" depends="commons,business" description="deploy monitor">
+			<ant antfile="build_sms_monitor.xml" dir="." />
+			
+			<!-- monitor -->
+	        <scp file="${deployment.dir}/SMSMonitor.jar" todir="${scp.user.name}:${scp.pwd.name}@${reports.host.name}:${reports.dir}"/>
+	        <scp file="${deployment.dir}/SMSBusiness.jar" todir="${scp.user.name}:${scp.pwd.name}@${reports.host.name}:${commons.lib.dir}"/>
+	        <scp file="${deployment.dir}/SMSCommons.jar" todir="${scp.user.name}:${scp.pwd.name}@${reports.host.name}:${commons.lib.dir}"/>
+				
+		</target>
+	
+		<target name="rest" depends="commons,business" description="Deploy Rest Project">
+		    <ant antfile="build_sms_service_client.xml" dir="." />
+		    <ant antfile="build_sms_service.xml" dir="." />
+			   <!-- Rest Project -->
+			            <scp todir="${scp.user.name}:${scp.pwd.name}@${rest.host.name}:${commons.lib.dir}">
+			                <fileset dir="${deployment.dir}">
+			                   <include name="SMSCommons.jar"/>
+			                   <!-- <include name="SMSBusiness.jar"/> -->
+			                   <include name="SMSServiceClient.jar"/>
+			                </fileset>
+			             </scp>
+			
+    			        <sshexec host="${rest.host.name}"
+											    username="${scp.user.name}"
+											    password="${scp.pwd.name}"
+											    command="${new.tomcat.dir}/bin/shutdown.sh"/>
+			
+			            <sleep seconds="5"/>
+			
+						<sshexec host="${rest.host.name}"
+						  username="${scp.user.name}"
+						  password="${scp.pwd.name}"
+						  command="rm -fr ${new.tomcat.dir}/webapps/SMSService"/>
+			
+			             <scp todir="${scp.user.name}:${scp.pwd.name}@${rest.host.name}:${new.tomcat.dir}/webapps">
+			                <fileset dir="${deployment.dir}">
+			                   <include name="SMSService.war"/>
+			                </fileset>
+			             </scp> 
+						
+						<sshexec host="${rest.host.name}"
+						    username="${scp.user.name}"
+						    password="${scp.pwd.name}"
+						    command="${new.tomcat.dir}/bin/startup.sh"/>
+			
+	 	</target>
 	
 	<target name="da" depends="commons" description="Deploy streamingWeb and Aggregator">
 		<ant antfile="build_sms_streamingweb.xml" dir="." />
@@ -99,17 +140,17 @@
 	<target name="scpFilesShutdown" description="This target only for scp files">
 		
 		<!-- portal 
-		<scp file="${lib.dir}/SMSWeb.war" todir="${scp.user.name}:${scp.pwd.name}@${portal.host.name}:${portal.tomcat.dir}/webapps"/>
+		<scp file="${lib.dir}/SMSWeb.war" todir="${scp.user.name}:${scp.pwd.name}@${portal.host.name}:${tomcat.dir}/webapps"/>
 		
-		<scp file="${lib.dir}/SMSStreamingWeb.war" todir="${scp.user.name}:${scp.pwd.name}@${batch.host.name}:${portal.tomcat.dir}/webapps"/>
-		<scp file="${lib.dir}/SMSDataAggregator.war" todir="${scp.user.name}:${scp.pwd.name}@${batch.host.name}:${portal.tomcat.dir}/webapps"/>  -->
+		<scp file="${lib.dir}/SMSStreamingWeb.war" todir="${scp.user.name}:${scp.pwd.name}@${batch.host.name}:${tomcat.dir}/webapps"/>
+		<scp file="${lib.dir}/SMSDataAggregator.war" todir="${scp.user.name}:${scp.pwd.name}@${batch.host.name}:${tomcat.dir}/webapps"/>  -->
 		<!--
 		<sshexec host="${reports.host.name}" username="${scp.user.name}" password="${scp.pwd.name}" command="${reports.dir}/stopServer.sh"/>
 		<sshexec host="${batch.host.name}" username="${scp.user.name}" password="${scp.pwd.name}" command="${batch.dir}/restart.sh"/> 
 		
 		
-		<sshexec host="${portal.host.name}" username="${scp.user.name}" password="${scp.pwd.name}" command="${portal.tomcat.dir}/bin/shutdown.sh"/>
-		<sshexec host="${batch.host.name}" username="${scp.user.name}" password="${scp.pwd.name}" command="${portal.tomcat.dir}/bin/shutdown.sh"/>
+		<sshexec host="${portal.host.name}" username="${scp.user.name}" password="${scp.pwd.name}" command="${tomcat.dir}/bin/shutdown.sh"/>
+		<sshexec host="${batch.host.name}" username="${scp.user.name}" password="${scp.pwd.name}" command="${tomcat.dir}/bin/shutdown.sh"/>
 		-->
 	</target>
 		
