@@ -28,8 +28,9 @@ public class RestfulJavaClientUsingURL {
   public static void main(String[] args) {
     // RestPOSTMethod();
     // restGetMethod();
+    restPOSTMethodIview();
     // restPostMethod();
-    restPostMethodToDownloadFile();
+    // restPostMethodToDownloadFile();
 
   }
 
@@ -82,6 +83,7 @@ public class RestfulJavaClientUsingURL {
       OutputStream os = conn.getOutputStream();
       os.write(requestData.getBytes());
       os.flush();
+      os.close();
 
       /*
        * if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) { throw new
@@ -93,6 +95,7 @@ public class RestfulJavaClientUsingURL {
       while ((output = br.readLine()) != null) {
         log.info(output);
       }
+      br.close();
       conn.disconnect();
 
     } catch (MalformedURLException e) {
