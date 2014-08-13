@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.supercsv.io.CsvBeanReader;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanReader;
@@ -12,6 +13,8 @@ import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
 public class CreateCSVFromSuperCSV {
+
+  private static final Logger log = Logger.getLogger(CreateCSVFromSuperCSV.class);
 
   /**
    * @param args
@@ -26,12 +29,12 @@ public class CreateCSVFromSuperCSV {
 
     /*
      * long start = new Date().getTime(); writeIntoCSV(beanWritter, inputPath, customer);
-     * System.out.println("Write into CSV done ");
+     * log.info("Write into CSV done ");
      */
 
     readFromCSV(inputPath);
     long end = new Date().getTime();
-    // System.out.println("Read from CSV done, Time Taken" + (end - start) / 1000);
+    // log.info("Read from CSV done, Time Taken" + (end - start) / 1000);
 
   }
 
@@ -43,11 +46,11 @@ public class CreateCSVFromSuperCSV {
 
       while ((customerRead = reader
           .read(Customer.class, new Customer().getReadHeaders(), new Customer().readProcessors)) != null) {
-        System.out.println("Customer " + customerRead.getFirstName());
+        log.info("Customer " + customerRead.getFirstName());
       }
 
     } catch (Exception e) {
-      System.out.println("Exception on Reading ");
+      log.info("Exception on Reading ");
     }
   }
 
@@ -59,14 +62,14 @@ public class CreateCSVFromSuperCSV {
       beanWritter.write(customer, new Customer().getHeaders(), new Customer().getReadProcessors());
 
     } catch (Exception e) {
-      System.out.println("The file cannot be created " + e.getMessage());
+      log.info("The file cannot be created " + e.getMessage());
       e.printStackTrace();
     } finally {
       if (beanWritter != null) {
         try {
           beanWritter.close();
         } catch (IOException e) {
-          System.out.println("Failed to close the created file " + e.getMessage());
+          log.info("Failed to close the created file " + e.getMessage());
           e.printStackTrace();
         }
       }

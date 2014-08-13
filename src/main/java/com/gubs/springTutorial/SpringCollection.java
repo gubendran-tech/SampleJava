@@ -14,6 +14,7 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -23,6 +24,8 @@ import org.springframework.jdbc.core.ResultSetExtractor;
  * 
  */
 public class SpringCollection {
+
+  private static final Logger log = Logger.getLogger(SpringCollection.class);
 
   private List<String> addressList;
   private Set<String> addressSet;
@@ -104,14 +107,14 @@ public class SpringCollection {
           });
     } catch (DataAccessException e) {
       e.printStackTrace();
-      System.out.println("Not found");
+      log.info("Not found");
     }
 
     if (mapValues.keySet().size() > 0) {
       Integer initialTelemetryStatus = (Integer) mapValues.get("TELEMETRY_REPORT_DATA_STATUS");
       int smsRciCommandJobId = (Integer) mapValues.get("RCI_COMMAND_SC_DEVICE_LOOKUP_ID");
 
-      System.out.println(initialTelemetryStatus + " " + smsRciCommandJobId);
+      log.info(initialTelemetryStatus + " " + smsRciCommandJobId);
       initialTelemetryStatus = 1;
 
       if (initialTelemetryStatus != null) {

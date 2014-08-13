@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
@@ -34,10 +36,19 @@ import com.google.common.collect.Ordering;
  */
 public class GoogleGuavaExamples {
 
+  // Modifier should be private. Because this variable (log) allowed only to this class
+  // static and final, static and final is required to avoid changing in the code on this attribute.
+  // We don't want this (log) variable action to be changed in the code
+  // Logger is static class you can't instantiate. getLogger method you can pass class name / stringName to
+  // print
+
+  private static final Logger log = Logger.getLogger(GoogleGuavaExamples.class);
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
+
 
     biMap();
     multiMap();
@@ -72,7 +83,7 @@ public class GoogleGuavaExamples {
     };
 
     List<String> ordered = order.immutableSortedCopy(strings);
-    System.out.println("Ordering in java.." + ordered.toString());
+    log.info("Ordering in java.." + ordered.toString());
 
     // You can do ordering by custom function code in it.
     Ordering<String> orderFunction = Ordering.natural().onResultOf(new Function<String, Integer>() {
@@ -83,7 +94,7 @@ public class GoogleGuavaExamples {
 
     // String will be taken as input and sort / order by based on the length
     List<String> stringsLengh = orderFunction.immutableSortedCopy(strings);
-    System.out.println("Ordering function " + stringsLengh.toString());
+    log.info("Ordering function " + stringsLengh.toString());
 
   }
 
@@ -96,12 +107,12 @@ public class GoogleGuavaExamples {
 		List<String> listItems = Lists.newArrayList("Gubs", "Sai Theja", "Kavitha", "Lakshmanan");
 		
 		// List in Reverse Order
-		System.out.println("Reverse Order list.." + Lists.reverse(listItems));
+    log.info("Reverse Order list.." + Lists.reverse(listItems));
 		
 		// List parition based on the size
 		int count = 0;
 		for (List<String> listPartition :  Lists.partition(listItems, 2)) {
-			System.out.println("List Partition " + count++ + listPartition.toString());
+      log.info("List Partition " + count++ + listPartition.toString());
 		}
 	}
 
@@ -120,7 +131,7 @@ public class GoogleGuavaExamples {
 		// collections2 filter and i
 //		List<Item> itemFound1 = Lists.newArrayList(Collections2.filter(items, new ItemPredicate(1));
 		
-		System.out.println("predicateInGuavaObject Found Size " + itemFound.size());
+    log.info("predicateInGuavaObject Found Size " + itemFound.size());
 		
 	}
 
@@ -139,7 +150,7 @@ public class GoogleGuavaExamples {
 		// Iterables.filter or Collections2.filter anything you can pass the unfilteredList and type to filter and display
 		List<String> listFound = Lists.newArrayList(Iterables.filter(lists,
 				predicateListData));
-		System.out.println("Predicate " + listFound);
+    log.info("Predicate " + listFound);
 	}
 
 	/**
@@ -159,7 +170,7 @@ public class GoogleGuavaExamples {
 		List<String> list2 = Arrays.asList(new String[] { "Sai" });
 
 		for (String str : Iterables.concat(list1, list2)) {
-			System.out.println("Iterables..." + str);
+      log.info("Iterables..." + str);
 		}
 	}
 
@@ -175,7 +186,7 @@ public class GoogleGuavaExamples {
 
 		multiSet.addAll(list);
 
-		System.out.println("How many Sai..." + multiSet.count("Sai"));
+    log.info("How many Sai..." + multiSet.count("Sai"));
 	}
 
 	/**
@@ -190,8 +201,8 @@ public class GoogleGuavaExamples {
 		languageCodes.put("tn", "Tamil");
 		languageCodes.put("fn", "French");
 
-		System.out.println(languageCodes.get("en"));
-		System.out.println(languageCodes.inverse().get("Tamil"));
+    log.info(languageCodes.get("en"));
+    log.info(languageCodes.inverse().get("Tamil"));
 	}
 
 	/**
@@ -208,22 +219,22 @@ public class GoogleGuavaExamples {
 		multiMap.put("snacks",
 				Arrays.asList(new String[] { "muruku", "samosa" }));
 
-		System.out.println("Size...." + multiMap.size());
+    log.info("Size...." + multiMap.size());
 
 		// It returns collection since it has to support LinkedListMultiMap
 		// etc..Use ListMultiMap if you need list value
 		Collection<Object> fruits = multiMap.get("Fruits");
 
-		System.out.println(Joiner.on(",").join(fruits));
+    log.info(Joiner.on(",").join(fruits));
 
 		// You will get value Object
 		Collection<Object> snacks = multiMap.get("snacks");
-		System.out.println(snacks);
+    log.info(snacks);
 
 		// This will remove only Peer from fruit
 		multiMap.remove("Fruits", "Peer");
 
-		System.out.println(multiMap.size());
+    log.info(multiMap.size());
 
 	}
 }

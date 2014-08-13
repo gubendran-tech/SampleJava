@@ -6,12 +6,16 @@ package com.gubs.JAXB;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author gubs http://stackoverflow.com/questions/17992435/how-to-get-all-namespaces-and-urls-to-populate-
  *         xsischemalocation-attribute-when
  * 
  */
 public class JAXBTest {
+
+  private static final Logger log = Logger.getLogger(JAXBTest.class);
 
   /**
    * @param args
@@ -23,7 +27,7 @@ public class JAXBTest {
 
     XMLGenerator<Photovoltaic> xg = new XMLGenerator<Photovoltaic>();
     String xmlData = xg.constructXMLFromObject("/home/gubs/", "dummy.xml", Photovoltaic.class, ph);
-    System.out.println("Xml data.." + xmlData);
+    log.info("Xml data.." + xmlData);
 
   }
 

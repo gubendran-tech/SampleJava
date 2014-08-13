@@ -1,5 +1,7 @@
 package com.gubs.testGeneric;
 
+import org.apache.log4j.Logger;
+
 /**
  * 
  * @author gubs
@@ -7,17 +9,19 @@ package com.gubs.testGeneric;
  */
 public class GenericBoundedType {
 
+  private static final Logger log = Logger.getLogger(GenericBoundedType.class);
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("Maximum elements in Integer " + 
+		log.info("Maximum elements in Integer " + 
 				maximum(3, 4, 5));
 		
-		System.out.println("Maximum elements in Double " + 
+		log.info("Maximum elements in Double " + 
 				maximum(4.5, 7.9, 3.4));
 		
-		System.out.println("Maximum elements in Double " + 
+		log.info("Maximum elements in Double " + 
 				maximum("SaiTheja", "Gubs", "Kavi"));
 	}
 

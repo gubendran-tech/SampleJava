@@ -5,8 +5,11 @@ import java.io.IOException;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.log4j.Logger;
 
 public class TestHttpPost {
+
+  private static final Logger log = Logger.getLogger(TestHttpPost.class);
 
   /**
    * @param args
@@ -22,7 +25,7 @@ public class TestHttpPost {
 
     for (int i = 0; i < 20; i++) {
 
-      System.out.println("I " + i);
+      log.info("I " + i);
       try {
         int statusCode = client.executeMethod(postMethod);
       } catch (HttpException e) {

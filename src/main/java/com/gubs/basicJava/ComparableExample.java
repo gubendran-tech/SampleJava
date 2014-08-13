@@ -3,6 +3,8 @@
  */
 package com.gubs.basicJava;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author gubs
  *         http://www.programcreek.com/2011/12/examples-to-demonstrate-comparable-vs-comparator-in-java/
@@ -60,6 +62,8 @@ package com.gubs.basicJava;
 
 public class ComparableExample {
 
+  private static final Logger log = Logger.getLogger(ComparableExample.class);
+
 	/**
 	 * @param args
 	 */
@@ -68,9 +72,9 @@ public class ComparableExample {
 		HDTV tv2 = new HDTV(55, "Sony");
 
 		if (tv1.compareTo(tv2) > 0) {
-			System.out.println(tv1.getBrand() + " is Greater");
+			log.info(tv1.getBrand() + " is Greater");
 		} else {
-			System.out.println(tv2.getBrand() + " is Greater");
+			log.info(tv2.getBrand() + " is Greater");
 		}
 	}
 

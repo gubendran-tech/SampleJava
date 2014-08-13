@@ -3,6 +3,8 @@ package com.gubs.basicJava;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
 /**
  * 
  * @author gubs
@@ -11,6 +13,8 @@ import java.util.regex.Pattern;
  *         text
  */
 public class TestRegExp {
+
+  private static final Logger log = Logger.getLogger(TestRegExp.class);
 
   /**
    * @param args
@@ -22,7 +26,7 @@ public class TestRegExp {
      * //Create pattern object Pattern r = Pattern.compile(pattern);
      * 
      * // Now create matcher object Matcher m = r.matcher(strTest); while(m.find()) {
-     * System.out.println("Found Value " + m.group(3)); }
+     * log.info("Found Value " + m.group(3)); }
      */
 
     String input = "<rci_request version=\"1.1\"><do_command target=\"NMS_Custom_RCI_Callback\"><rci_cmd_struct><command><id v= \"LC_Set_Schedule\"/><schedule Day='Daily' Hour='19' Minute='2' Action='Light' LightValue='On' Target='G1' /><schedule Day='Daily' Hour='19' Minute='7' Action='Sensor' SensorValue='Off' Target='G1' /></command></rci_cmd_struct></do_command></rci_request>";
@@ -32,7 +36,7 @@ public class TestRegExp {
     Matcher m = pat.matcher(input);
 
     while (m.find()) {
-      System.out.println(m.group(1));
+      log.info(m.group(1));
     }
 
     /*
@@ -46,9 +50,9 @@ public class TestRegExp {
      * // Create pattern object Pattern r = Pattern.compile(pattern);
      * 
      * // Now create matcher object Matcher m = r.matcher(strTest); while (m.find()) { //
-     * System.out.println("Group 0 prints all " + m.group(0)); System.out.println("System Serial Number " +
-     * m.group(2)); System.out.println("Panel Serial Number " + m.group(4));
-     * System.out.println("Inverter MacAddress " + m.group(6)); System.out.println("Inverter SN " +
+     * log.info("Group 0 prints all " + m.group(0)); log.info("System Serial Number " +
+     * m.group(2)); log.info("Panel Serial Number " + m.group(4));
+     * log.info("Inverter MacAddress " + m.group(6)); log.info("Inverter SN " +
      * m.group(8)); }
      */
 

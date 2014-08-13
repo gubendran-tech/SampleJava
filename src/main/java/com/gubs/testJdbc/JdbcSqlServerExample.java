@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.apache.log4j.Logger;
+
 /**
  * http://blogs.msdn.com/b/brian_swan/archive/2011/03/02/getting-started-with-the-sql-server-jdbc-driver.aspx
  * Download sqljdbc4.jar
@@ -14,6 +16,8 @@ import java.sql.Statement;
  * 
  */
 public class JdbcSqlServerExample {
+
+  private static final Logger log = Logger.getLogger(JdbcSqlServerExample.class);
 
   /**
    * @param args
@@ -35,10 +39,10 @@ public class JdbcSqlServerExample {
       ResultSet rs = stmnt.executeQuery(sql);
 
       while (rs.next()) {
-        System.out.println(rs.getString("SN"));
+        log.info(rs.getString("SN"));
       }
 
-      System.out.println("Connected..");
+      log.info("Connected..");
 
     } catch (ClassNotFoundException e) {
       // TODO Auto-generated catch block

@@ -9,8 +9,11 @@ import java.net.SocketException;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.log4j.Logger;
 
 public class SampleFTPClient {
+
+  private static final Logger log = Logger.getLogger(SampleFTPClient.class);
 
   /**
    * @param args
@@ -40,7 +43,7 @@ public class SampleFTPClient {
       boolean success = ftpClient.retrieveFile(remoteAddress + fileName, outputStream);
       outputStream.close();
       if (success) {
-        System.out.println("File Download successfully " + localAddress + fileName);
+        log.info("File Download successfully " + localAddress + fileName);
       }
 
     } catch (SocketException e) {

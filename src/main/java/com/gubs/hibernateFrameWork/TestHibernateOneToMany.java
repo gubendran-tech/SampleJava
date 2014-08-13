@@ -2,16 +2,19 @@ package com.gubs.hibernateFrameWork;
 
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 
 public class TestHibernateOneToMany {
 
+  private static final Logger log = Logger.getLogger(TestHibernateOneToMany.class);
+
   /**
    * @param args
    */
   public static void main(String[] args) {
-    System.out.println("Hibernate one to many (XML Mapping)");
+    log.info("Hibernate one to many (XML Mapping)");
     Session session = HibernateUtil.getSessionFactory().openSession();
 
     session.beginTransaction();
@@ -34,7 +37,7 @@ public class TestHibernateOneToMany {
     session.save(stockDailyRecords);
 
     session.getTransaction().commit();
-    System.out.println("Done");
+    log.info("Done");
   }
 
 }

@@ -6,6 +6,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -13,6 +14,8 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class SaxParserTestwithAttribute extends DefaultHandler {
 	
+  private static final Logger log = Logger.getLogger(SaxParserTestwithAttribute.class);
+
 	private String fname = null;
 
 	  public void parse() {
@@ -35,7 +38,7 @@ public class SaxParserTestwithAttribute extends DefaultHandler {
 	  public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 	    if (qName.equals("firstname")) {
 	    	fname = attributes.getValue("firstname");
-	    	System.out.println("Firstname " + fname);
+	    	log.info("Firstname " + fname);
 	    }
 	    
 	  }

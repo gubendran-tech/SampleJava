@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
@@ -14,6 +15,8 @@ import org.joda.time.Weeks;
 import org.joda.time.Years;
 
 public class JavaDate {
+
+  private static final Logger log = Logger.getLogger(JavaDate.class);
 
 	public static void main(String args[]) {
 		 testTimeZone();
@@ -50,10 +53,10 @@ public class JavaDate {
       }
       dt1 = dt1.plusDays(1);
 
-      System.out.println("Date " + dt1.toString());
+      log.info("Date " + dt1.toString());
     }
 
-    System.out.println("Week Days " + weekDays);
+    log.info("Week Days " + weekDays);
 
   }
 
@@ -72,18 +75,18 @@ public class JavaDate {
  		
 		
     /*
-     * Period period = new Period(d1, d2); System.out.println("Difference between Days " + period.getDays());
-     * System.out.println("Difference between Hours " + period.getHours());
-     * System.out.println("Difference between minutes " + period.getMinutes());
-     * System.out.println("Difference between seconds " + period.getSeconds());
+     * Period period = new Period(d1, d2); log.info("Difference between Days " + period.getDays());
+     * log.info("Difference between Hours " + period.getHours());
+     * log.info("Difference between minutes " + period.getMinutes());
+     * log.info("Difference between seconds " + period.getSeconds());
      */
-    System.out.println("Years between " + Years.yearsBetween(dt1, dt2).getYears());
+    log.info("Years between " + Years.yearsBetween(dt1, dt2).getYears());
 
-    System.out.println("Days between " + Days.daysBetween(dt1, dt2).getDays());
+    log.info("Days between " + Days.daysBetween(dt1, dt2).getDays());
 
-    System.out.println("Hours between " + Hours.hoursBetween(dt1, dt2).getHours());
+    log.info("Hours between " + Hours.hoursBetween(dt1, dt2).getHours());
     
-    System.out.println("Weeks between " + Weeks.weeksBetween(dt1, dt2).getWeeks());
+    log.info("Weeks between " + Weeks.weeksBetween(dt1, dt2).getWeeks());
 		
 	}
 
@@ -98,10 +101,10 @@ public class JavaDate {
 		    cal.setTime(dt.toDate());
 		    
 
-		    System.out.println("number of days " + Calendar.getInstance().getActualMaximum(cal.DAY_OF_MONTH));
+		    log.info("number of days " + Calendar.getInstance().getActualMaximum(cal.DAY_OF_MONTH));
 		    
 		    pvWattsPerDay = (1) / Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
 
-		    System.out.println(pvWattsPerDay);
+		    log.info(pvWattsPerDay);
 	}
 }

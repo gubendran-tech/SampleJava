@@ -5,11 +5,15 @@ package com.gubs.testMultiThreading;
 
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author gubs
  * 
  */
 public class TestMultiThreaded {
+
+  private static final Logger log = Logger.getLogger(TestMultiThreaded.class);
 
   /**
    * @param args
@@ -37,7 +41,7 @@ public class TestMultiThreaded {
 
   private static void checkThreadCount() {
     int threadSize = Thread.getAllStackTraces().size();
-    System.out.println(threadSize);
+    log.info(threadSize);
   }
 
   private static void createChildThread(int id) {
@@ -48,7 +52,7 @@ public class TestMultiThreaded {
       thread.setDaemon(false);
       thread.start();
     } else {
-      System.out.println("This thread already running.." + threadName);
+      log.info("This thread already running.." + threadName);
     }
 
   }
@@ -66,8 +70,11 @@ public class TestMultiThreaded {
 }
 
 class ThreadTest implements Runnable {
+
+  private static final Logger log = Logger.getLogger(ThreadTest.class);
+
   public void run() {
-    System.out.println("Thread Name.." + Thread.currentThread().getName());
+    log.info("Thread Name.." + Thread.currentThread().getName());
 
     if (Thread.currentThread().getName().equals("Gubs_3") || Thread.currentThread().getName().equals("Gubs_4")) {
       try {

@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author gubs
  * 
@@ -26,6 +28,8 @@ public class JdbcToExtractSMSReportData {
 
   private static final String DB_USER = "qa_admin_user";
   private static final String DB_PWD = "petra123";
+
+  private static final Logger log = Logger.getLogger(JdbcToExtractSMSReportData.class);
 
   /**
    * @param args
@@ -41,7 +45,7 @@ public class JdbcToExtractSMSReportData {
 
     /*
      * try { bw = new BufferedWriter(new FileWriter(new File(fileName))); } catch (IOException e1) {
-     * System.out.println("Failed to create a file.."); e1.printStackTrace(); }
+     * log.info("Failed to create a file.."); e1.printStackTrace(); }
      */
 
     try {
@@ -49,12 +53,12 @@ public class JdbcToExtractSMSReportData {
       Class.forName(JDBC_DRIVER);
 
       // Step 3 : Open a connection
-      System.out.println("Connecting to database..");
+      log.info("Connecting to database..");
       conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD);
 
       // Step 4 : Execute a query
       /*
-       * System.out.println("Creating a statement "); stmt = conn.createStatement(); String sql =
+       * log.info("Creating a statement "); stmt = conn.createStatement(); String sql =
        * "SELECT DISTINCT ZIGBEE_MAC_ID FROM SMS_REPORT_DATA WHERE CUSTOMER_ID = 1"; rs =
        * stmt.executeQuery(sql);
        * 
@@ -74,7 +78,7 @@ public class JdbcToExtractSMSReportData {
         // Step 5 : Extract data from result set
         while (rs.next()) {
           String zigbeeMacId = rs.getString("ZIGBEE_MAC_ID");
-          System.out.println("Zigbee.." + zigbeeMacId);
+          log.info("Zigbee.." + zigbeeMacId);
           Double kwh = rs.getDouble("KWH");
           int deviceId = rs.getInt("DEVICE_ID");
           StringBuilder insertSql = new StringBuilder();
@@ -93,7 +97,7 @@ public class JdbcToExtractSMSReportData {
     } catch (SQLException e) {
       e.printStackTrace();
     } catch (IOException e) {
-      System.out.println("Failed to write into file..");
+      log.info("Failed to write into file..");
       e.printStackTrace();
     }
 
@@ -111,6 +115,6 @@ public class JdbcToExtractSMSReportData {
 
     }
 
-    System.out.println("Completed.." + new Date().toString());
+    log.info("Completed.." + new Date().toString());
   }
 }

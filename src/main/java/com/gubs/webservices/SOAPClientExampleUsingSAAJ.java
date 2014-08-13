@@ -14,7 +14,11 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.log4j.Logger;
+
 public class SOAPClientExampleUsingSAAJ {
+
+  private static final Logger log = Logger.getLogger(SOAPClientExampleUsingSAAJ.class);
 
     /**
    * Starting point for the SAAJ - SOAP Client Testing SAAJ -> SOAP with Attachments API for Java (SAAJ)
@@ -80,7 +84,6 @@ public class SOAPClientExampleUsingSAAJ {
         /* Print the request message */
         System.out.print("Request SOAP Message = ");
         soapMessage.writeTo(System.out);
-        System.out.println();
 
         return soapMessage;
     }

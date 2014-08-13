@@ -6,6 +6,7 @@ package com.gubs.springChannels;
 import java.io.File;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.integration.annotation.Headers;
 import org.springframework.integration.annotation.Payload;
 import org.springframework.integration.annotation.ServiceActivator;
@@ -18,14 +19,17 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class InboundFileProcessor {
+
+  private static final Logger log = Logger.getLogger(InboundFileProcessor.class);
+
   @ServiceActivator
   public void onNewFileArrival(@Headers Map<String, Object> headers, @Payload File file) {
 
     System.out.printf("A new File Arried ", file.getAbsolutePath());
 
-    System.out.println("The headers are ");
+    log.info("The headers are ");
     for (String header : headers.keySet()) {
-      System.out.println(String.format("%s=%s", headers.get(header)));
+      log.info(String.format("%s=%s", headers.get(header)));
     }
   }
 }

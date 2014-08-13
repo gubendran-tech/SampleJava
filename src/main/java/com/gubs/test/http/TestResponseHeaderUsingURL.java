@@ -8,7 +8,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class TestHttpResponseHeader {
+import org.apache.log4j.Logger;
+
+public class TestResponseHeaderUsingURL {
+
+  private static final Logger log = Logger.getLogger(TestResponseHeaderUsingURL.class);
 
   /**
    * @param args
@@ -22,14 +26,14 @@ public class TestHttpResponseHeader {
       Map<String, List<String>> headerFields = conn.getHeaderFields();
 
       for (Map.Entry<String, List<String>> entry : headerFields.entrySet()) {
-        System.out.println("Key header fields name " + entry.getKey() + " field values " + entry.getValue());
+        log.info("Key header fields name " + entry.getKey() + " field values " + entry.getValue());
       }
 
       List<String> servers = headerFields.get("Server");
       if (servers != null) {
         Iterator<String> itr = servers.iterator();
         while (itr.hasNext()) {
-          System.out.println("Iterator servers : " + itr.next());
+          log.info("Iterator servers : " + itr.next());
         }
       }
 

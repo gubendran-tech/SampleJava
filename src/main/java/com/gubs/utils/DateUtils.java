@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
@@ -16,6 +17,8 @@ import org.joda.time.Years;
 import org.joda.time.format.DateTimeFormat;
 
 public class DateUtils {
+
+  private static final Logger log = Logger.getLogger(DateUtils.class);
 
   public static final String DATE_FORMAT_EMAIL_REPORT_CREATE_DATE = "EEE, MMM d hh:mm:ss z yyyy";
 
@@ -106,7 +109,7 @@ public class DateUtils {
       SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
       parseDate = sdf.parse(date);
     } catch (Exception e) {
-      System.out.println("Failed to parse date " + e.getMessage());
+      log.info("Failed to parse date " + e.getMessage());
     }
     return parseDate;
   }
@@ -142,8 +145,8 @@ public class DateUtils {
     try {
       gmtTimeMillis = gmtFormat.parse(estFormat.format(currDate.getTime())).getTime();
       Date date = new Date(gmtTimeMillis);
-      // System.out.println("EST >>>" + currDate);
-      // System.out.println("GMT >>>" + date);
+      // log.info("EST >>>" + currDate);
+      // log.info("GMT >>>" + date);
     } catch (ParseException e) {
       e.printStackTrace();
     }
@@ -312,10 +315,10 @@ public class DateUtils {
     calendar.set(Calendar.SECOND, 0);
     calendar.set(Calendar.MILLISECOND, 0);
 
-    System.out.println(calendar.getTime());
+    log.info(calendar.getTime());
     Timestamp ts2 = new Timestamp(calendar.getTime().getTime());
 
-    System.out.println("Diff2:" + subtractTime(ts2, t1));
+    log.info("Diff2:" + subtractTime(ts2, t1));
   }
 
   /**
@@ -356,7 +359,7 @@ public class DateUtils {
         SimpleDateFormat customDateFormat = new SimpleDateFormat(format);
         formattedDate = customDateFormat.format(date);
       } catch (Exception ex) {
-        System.out.println("Error in getFormattedDateString::" + ex.getMessage());
+        log.info("Error in getFormattedDateString::" + ex.getMessage());
       }
     }
 

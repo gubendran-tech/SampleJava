@@ -2,6 +2,8 @@ package com.gubs.springQuartz;
 
 import java.util.Date;
 
+import org.apache.log4j.Logger;
+
 /**
  * 
  * @author gubs
@@ -9,6 +11,8 @@ import java.util.Date;
 
 // This is the schedular class i want to schedule
 public class RunMeTask {
+
+  private static final Logger log = Logger.getLogger(RunMeTask.class);
 
   private String person;
 
@@ -30,7 +34,7 @@ public class RunMeTask {
   }
 
   public void printMe() {
-    System.out.println("RunMe Task printMe method. Spring and Quartz : "
+    log.info("RunMe Task printMe method. Spring and Quartz : "
         + new Date(System.currentTimeMillis()).toString() + " by person " + this.person);
   }
 

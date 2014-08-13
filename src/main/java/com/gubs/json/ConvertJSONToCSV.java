@@ -10,6 +10,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.apache.log4j.Logger;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -20,6 +22,8 @@ import com.google.gson.JsonParser;
  * 
  */
 public class ConvertJSONToCSV {
+
+  private static final Logger log = Logger.getLogger(ConvertJSONToCSV.class);
 
   /**
    * @param args
@@ -71,7 +75,7 @@ public class ConvertJSONToCSV {
       str.append(time + ",");
 
       str.append("\n");
-      System.out.println(str.toString());
+      log.info(str.toString());
       bw.write(str.toString());
     }
     bw.close();

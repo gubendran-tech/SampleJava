@@ -4,13 +4,17 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.apache.log4j.Logger;
+
 public class TestSchedule extends TimerTask {
+
+  private static final Logger log = Logger.getLogger(TestSchedule.class);
 
   public static final int DELAY = 20 * 1000;
 
   @Override
   public void run() {
-    System.out.println("Coming.." + Calendar.getInstance().toString());
+    log.info("Coming.." + Calendar.getInstance().toString());
   }
 
   /**

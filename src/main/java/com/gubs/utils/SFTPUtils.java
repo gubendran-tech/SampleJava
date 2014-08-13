@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
 
 import com.jcraft.jsch.Channel;
@@ -22,6 +23,8 @@ import com.jcraft.jsch.SftpException;
  * 
  */
 public class SFTPUtils {
+
+  private static final Logger log = Logger.getLogger(SFTPUtils.class);
 
   public static void main(String[] args) {
     String localFullPathWithFileName = "/home/gubs/pseg_energy_by_device/2012-01-01.csv";
@@ -60,7 +63,7 @@ public class SFTPUtils {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    System.out.println("Success " + status);
+    log.info("Success " + status);
   }
   /**
    * 

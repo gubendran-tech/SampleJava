@@ -4,6 +4,7 @@ package com.gubs.testDrools;
 
 import java.io.File;
 
+import org.apache.log4j.Logger;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseFactory;
 import org.drools.builder.KnowledgeBuilder;
@@ -13,6 +14,8 @@ import org.drools.io.ResourceFactory;
 import org.drools.runtime.StatefulKnowledgeSession;
 
 public class SimpleRule {
+
+  private static final Logger log = Logger.getLogger(SimpleRule.class);
 
   /**
    * @param args
@@ -43,7 +46,7 @@ public class SimpleRule {
     builder.add(ResourceFactory.newFileResource(accountRules), ResourceType.DRL);
 
     if (builder.hasErrors()) {
-      System.out.println("Builder failed to load");
+      log.info("Builder failed to load");
     }
 
     KnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase();

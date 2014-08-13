@@ -5,9 +5,15 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.log4j.Logger;
 
 /**
  * 
@@ -16,6 +22,8 @@ import java.util.regex.Pattern;
  */
 public class JdbcExampleAndWriteIntoFile {
 	
+  private static final Logger log = Logger.getLogger(JdbcExampleAndWriteIntoFile.class);
+
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	static final String DB_URL = "jdbc:mysql://localhost/test";
 	
@@ -35,11 +43,11 @@ public class JdbcExampleAndWriteIntoFile {
 			Class.forName(JDBC_DRIVER);
 			
 			// Step 3 : Open a connection
-			System.out.println("Connecting to database..");
+			log.info("Connecting to database..");
 			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD);
 			
 			//Step 4 : Execute a query
-			System.out.println("Creating a statement ");
+			log.info("Creating a statement ");
 			stmt = conn.createStatement();
 			String sql = "SELECT id, name FROM dummy WHERE name REGEXP 'Replaced with unit : System SN - [0-9a-z]'";
 			rs = stmt.executeQuery(sql);
@@ -49,8 +57,8 @@ public class JdbcExampleAndWriteIntoFile {
 //				int id = rs.getInt("id");
 				String name = rs.getString("name");
 				
-//				System.out.println("Id " + id );
-				System.out.println("Content : " + name);
+//				log.info("Id " + id );
+				log.info("Content : " + name);
 				pregMatch(name);
 			}
 			
@@ -94,15 +102,15 @@ public class JdbcExampleAndWriteIntoFile {
 		String inverterSerialNumber = null;
 		
 		while(m.find()) {
-//			System.out.println("Group 0 prints all " + m.group(0));
+//			log.info("Group 0 prints all " + m.group(0));
 			systemSerialNumber = m.group(2);
 			panelSerialNumber = m.group(4);
 			inverterMacAddress = m.group(6);
 			inverterSerialNumber = m.group(8);
-			System.out.println("System Serial Number : " + systemSerialNumber);
-			System.out.println("Panel Serial Number : " + panelSerialNumber);
-			System.out.println("Inverter MacAddress : " + inverterMacAddress);
-			System.out.println("Inverter SN : " + inverterSerialNumber);
+			log.info("System Serial Number : " + systemSerialNumber);
+			log.info("Panel Serial Number : " + panelSerialNumber);
+			log.info("Inverter MacAddress : " + inverterMacAddress);
+			log.info("Inverter SN : " + inverterSerialNumber);
 			writeIntoFile(systemSerialNumber, panelSerialNumber, inverterMacAddress, inverterSerialNumber);
 		}
 	}
@@ -122,10 +130,10 @@ public class JdbcExampleAndWriteIntoFile {
 		File file = new File("/home/gubs/output.txt");
 		if (!file.exists()) {
 			try {
-				System.out.println("File created");
+				log.info("File created");
 				file.createNewFile();
 			} catch (IOException e) {
-				System.out.println("File failed to create ");
+				log.info("File failed to create ");
 				e.printStackTrace();
 			}
 		}
@@ -144,10 +152,10 @@ public class JdbcExampleAndWriteIntoFile {
 			bw.write(strBuilder.toString());
 			bw.flush();
 			bw.close();
-			System.out.println("Done..");
+			log.info("Done..");
 			
 		} catch (IOException e) {
-			System.out.println("IO Exception on FileWriter ");
+			log.info("IO Exception on FileWriter ");
 			e.printStackTrace();
 		}
 		

@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author gubs
  * 
@@ -24,7 +26,7 @@ import java.util.Set;
 
 // Default modified package-private (private with in the package)
 class HDTV2 {
-	
+
 	private int size;
 	private String brand;
 	private String location;
@@ -105,6 +107,7 @@ class HDTV2 {
 
 public class HashCodeEqualsExample {
 
+  private static final Logger log = Logger.getLogger(HashCodeEqualsExample.class);
 	/**
 	 * @param args
 	 */
@@ -121,7 +124,7 @@ public class HashCodeEqualsExample {
 		// Duplicate objects on Set (HDTV2 obj) is avoided with hashCode and equals method.
 		// If the object is missing after you push into Set or HashMap key check your hashCode or equals method. 
 		// You must not considered the new attributes and it may cause issue
-		System.out.println(hdtvSet.toString());
+		log.info(hdtvSet.toString());
 		
 		Map<Integer, HDTV2> mapHDTV = new HashMap<Integer, HDTV2>();
 		mapHDTV.put(0, obj1);
@@ -129,7 +132,7 @@ public class HashCodeEqualsExample {
 		mapHDTV.put(2, obj3);
 		
 		for (Map.Entry<Integer, HDTV2> map1 : mapHDTV.entrySet()) {
-			System.out.println(map1.getKey() + " " + map1.getValue());
+			log.info(map1.getKey() + " " + map1.getValue());
 		}
 	}
 

@@ -7,11 +7,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author gubs
  * 
  */
 public class TestObj {
+
+  private static final Logger log = Logger.getLogger(TestObj.class);
 
   /**
    * @param args
@@ -24,12 +28,12 @@ public class TestObj {
     for (int i = 1; i <= 2; i++) {
       doj = populateFields();
       doj.setChildName("Sai Theja.." + i);
-      System.out.println("Sai Theja.." + i);
+      log.info("Sai Theja.." + i);
 
       listObj.add(doj);
     }
 
-    System.out.println(listObj.toString());
+    log.info(listObj.toString());
 
   }
 

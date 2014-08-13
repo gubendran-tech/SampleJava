@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author gubs
  * 
@@ -84,6 +86,8 @@ class sizeComparator implements Comparator<HDTV1> {
 
 public class ComparatorExample {
 
+  private static final Logger log = Logger.getLogger(ComparatorExample.class);
+
 	/**
 	 * http://www.programcreek.com/2011/12/examples-to-demonstrate-comparable-vs
 	 * -comparator-in-java/
@@ -105,7 +109,7 @@ public class ComparatorExample {
 		// Sort will happen based on the comparator we passed based on compare method
 		Collections.sort(hdtvComparator, new sizeComparator());
 		
-		System.out.println(hdtvComparator.toString());
+		log.info(hdtvComparator.toString());
 		
 		List<HDTV1> hdtvComparable = new ArrayList<HDTV1>();
 		hdtvComparable.add(obj1);
@@ -116,7 +120,7 @@ public class ComparatorExample {
 		// Sort will happen based on the comparable class implementation in the list contained Object
 		Collections.sort(hdtvComparable);
 		
-		System.out.println(hdtvComparable.toString());
+		log.info(hdtvComparable.toString());
 		
 	}
 

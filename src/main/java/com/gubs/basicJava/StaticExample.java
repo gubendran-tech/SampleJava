@@ -3,18 +3,22 @@
  */
 package com.gubs.basicJava;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author gubs
  *
  */
 public class StaticExample {
 
+  private static final Logger log = Logger.getLogger(StaticExample.class);
+
   // static variable. s
   private static String name = "Gubendran aka gubs";
 
   // static block
   static {
-    System.out.println("Static block executes first before main method when the class invoke..");
+    log.info("Static block executes first before main method when the class invoke..");
   }
   /**
    * @param args
@@ -25,7 +29,7 @@ public class StaticExample {
 
     // Static variable can be directly called from the className. It belongs to class and not to object. It
     // cannot invoke through object. Initialize once at the time of class loading
-    System.out.println(StaticExample.name);
+    log.info(StaticExample.name);
 
     StaticExample.InnerOrNestedClass stIn = new StaticExample.InnerOrNestedClass();
     stIn.testInnerMethod();
@@ -41,13 +45,13 @@ public class StaticExample {
   }
 
   public void test() {
-    System.out.println("Static variable can be accessed by instance java methods also " + name);
+    log.info("Static variable can be accessed by instance java methods also " + name);
   }
 
   // Nested static class inside the class
   static class InnerOrNestedClass {
     public void testInnerMethod() {
-      System.out.println("Testing Nested class");
+      log.info("Testing Nested class");
     }
   }
 

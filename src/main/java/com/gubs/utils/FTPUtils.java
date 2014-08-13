@@ -7,6 +7,7 @@ import java.io.InputStream;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.log4j.Logger;
 
 /**
  * A program that demonstrates how to upload files from local computer to a remote FTP server using Apache
@@ -16,6 +17,9 @@ import org.apache.commons.net.ftp.FTPClient;
  */
 
 public class FTPUtils {
+
+  private static final Logger log = Logger.getLogger(FTPUtils.class);
+
   public static void main(String[] args) {
     String server = "test.rebex.net";
     int port = 21;
@@ -38,20 +42,20 @@ public class FTPUtils {
       String firstRemoteFile = "/pub/test/dummy.csv";
       InputStream inputStream = new FileInputStream(firstLocalFile);
 
-      System.out.println("Start uploading first file");
+      log.info("Start uploading first file");
       boolean done = ftpClient.storeFile(firstRemoteFile, inputStream);
       inputStream.close();
       if (done) {
-        System.out.println("The first file is uploaded successfully.");
+        log.info("The first file is uploaded successfully.");
       }
 
       boolean completed = ftpClient.completePendingCommand();
       if (completed) {
-        System.out.println("The second file is uploaded successfully.");
+        log.info("The second file is uploaded successfully.");
       }
 
     } catch (IOException ex) {
-      System.out.println("Error: " + ex.getMessage());
+      log.info("Error: " + ex.getMessage());
       ex.printStackTrace();
     } finally {
       try {

@@ -17,6 +17,7 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -32,6 +33,8 @@ public class JdbcToExtractKwhSMSReportData {
   private static final String DB_USER = "prod_admin_user";
   private static final String DB_PWD = "1nt3ll1v13w";
 
+  private static final Logger log = Logger.getLogger(JdbcToExtractKwhSMSReportData.class);
+
   /**
    * @param args
    */
@@ -46,7 +49,7 @@ public class JdbcToExtractKwhSMSReportData {
 
     /*
      * try { bw = new BufferedWriter(new FileWriter(new File(fileName))); } catch (IOException e1) {
-     * System.out.println("Failed to create a file.."); e1.printStackTrace(); }
+     * log.info("Failed to create a file.."); e1.printStackTrace(); }
      */
 
     try {
@@ -54,12 +57,12 @@ public class JdbcToExtractKwhSMSReportData {
       Class.forName(JDBC_DRIVER);
 
       // Step 3 : Open a connection
-      System.out.println("Connecting to database..");
+      log.info("Connecting to database..");
       conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD);
 
       // Step 4 : Execute a query
       /*
-       * System.out.println("Creating a statement "); stmt = conn.createStatement(); String sql =
+       * log.info("Creating a statement "); stmt = conn.createStatement(); String sql =
        * "SELECT DISTINCT ZIGBEE_MAC_ID FROM SMS_REPORT_DATA WHERE CUSTOMER_ID = 1"; rs =
        * stmt.executeQuery(sql);
        * 
@@ -77,8 +80,8 @@ public class JdbcToExtractKwhSMSReportData {
       long endTime = new DateTime(startTime, DateTimeZone.forTimeZone(TimeZone.getTimeZone("EST")))
           .withTime(0, 0, 0, 0).plusMonths(1).getMillis();
 
-      System.out.println(startTime);
-      System.out.println(endTime);
+      log.info(startTime);
+      log.info(endTime);
 
       while ((deviceId = br.readLine()) != null) {
         String sql = "SELECT DEVICE_ID, ZIGBEE_MAC_ID, MIN(KWH) AS MIN_KWH, MAX(KWH) AS MAX_KWH, (MAX(KWH) - MIN(KWH)) AS SUM_KWH FROM SMS_REPORT_DATA WHERE CUSTOMER_ID = 1 AND DEVICE_ID = "
@@ -99,7 +102,7 @@ public class JdbcToExtractKwhSMSReportData {
           str.append(maxKwh + ",");
           str.append(subKwh);
 
-          System.out.println(str.toString());
+          log.info(str.toString());
           bw.write(str.toString());
           bw.write("\n");
         }
@@ -111,7 +114,7 @@ public class JdbcToExtractKwhSMSReportData {
     } catch (SQLException e) {
       e.printStackTrace();
     } catch (IOException e) {
-      System.out.println("Failed to write into file..");
+      log.info("Failed to write into file..");
       e.printStackTrace();
     }
 
@@ -128,6 +131,6 @@ public class JdbcToExtractKwhSMSReportData {
 
     }
 
-    System.out.println("Completed.." + new Date().toString());
+    log.info("Completed.." + new Date().toString());
   }
 }

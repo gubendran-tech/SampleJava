@@ -1,11 +1,15 @@
 package com.gubs.testGeneric;
 
+import org.apache.log4j.Logger;
+
 /**
  * 
  * @author gubs
  *
  */
 public class GenericMethodTest {
+
+  private static final Logger log = Logger.getLogger(GenericMethodTest.class);
 
 	/**
 	 * @param args
@@ -27,7 +31,7 @@ public class GenericMethodTest {
 
 	private static <E> void printGenericArray(E[] elements) {
 		for (E element : elements) {
-			System.out.println("The output element is " + element);
+			log.info("The output element is " + element);
 		}
 	}
 }

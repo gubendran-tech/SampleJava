@@ -1,11 +1,14 @@
 package com.gubs.springQuartz;
 
+import org.apache.log4j.Logger;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.springframework.scheduling.quartz.CronTriggerBean;
 import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean;
 
 public class QuartzJobCreation {
+
+  private static final Logger log = Logger.getLogger(QuartzJobCreation.class);
 
   private Scheduler scheduleFactory;
 
@@ -16,7 +19,7 @@ public class QuartzJobCreation {
     try {
       new QuartzJobCreation().execute();
     } catch (Exception e) {
-      System.out.println("Exception " + e.getMessage());
+      log.info("Exception " + e.getMessage());
       // TODO Auto-generated catch block
       e.printStackTrace();
     }

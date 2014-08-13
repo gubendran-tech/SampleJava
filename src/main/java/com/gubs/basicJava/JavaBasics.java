@@ -15,12 +15,16 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import org.apache.commons.collections.ListUtils;
+import org.apache.log4j.Logger;
+import org.springframework.util.StringUtils;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 public class JavaBasics {
+
+  private static final Logger log = Logger.getLogger(JavaBasics.class);
 
   private enum WEEKDAYS {
     SUNDAY, MONDAY, TUESDAY
@@ -30,46 +34,65 @@ public class JavaBasics {
 
   public static void main(String[] args) throws IOException, ParseException {
 
-    System.out.println("Default System TZ.." + TimeZone.getDefault());
+    Double d = -1D;
+    if (d >= 0D) {
+      log.info("IF..");
+    } else if (d < 0) {
+      log.info("eLSE");
+    }
+    String remoteFilePath = "0056/IntelliView/Notifications/Reports/R3/EGS_snapshotChart_22072014_155001.png";
+    String[] directories = StringUtils.tokenizeToStringArray(remoteFilePath, "/");
+    String directory = "/";
+    for (String directorySegment : directories) {
+      directory += directorySegment + "/";
+      try {
+        log.info("Directory.." + directory);
+      } catch (Exception e) {
+        // log.info("Directory.." + directory);
+      }
+    }
+
+    log.info("Default System TZ.." + TimeZone.getDefault());
 
     String test = "gubs";
     test = test.replace("$customerId", "0001");
-    System.out.println(test);
+    log.info(test);
 
     String[] levels = "H1".split("H");
-    System.out.println("H" + levels[1]);
-    System.out.println("Code Owner.." + EnumTest.CODE_OWNER.getName());
+    log.info("H" + levels[1]);
+    log.info("Code Owner.." + EnumTest.CODE_OWNER.getName());
+    log.info("Owner.." + EnumTest.get("she does everything").getName());
     double volt = 99.97;
     double confV = 99.98;
     
     List<String> str = Lists.newArrayList("gubs", "sai", "kavi");
     for(int i=0; i <= 2; i++) {
-    	System.out.println(str.get(i));
+    	log.info(str.get(i));
     }
 
     if (confV > volt) {
-      System.out.println("Coming..");
+      log.info("Coming..");
     }
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.MILLISECOND, 300000);
-    System.out.println(cal.getTime());
+    log.info(cal.getTime());
 
-    System.out.println(System.getProperty("user.home"));
-    System.out.println("Value..." + Integer.toHexString(500));
+    log.info(System.getProperty("user.home"));
+    log.info("Value..." + Integer.toHexString(500));
 
     String filePath = "/home/gubs";
     String fileName = "SC_Device.csv";
 
     File file = new File(filePath, fileName);
     FileInputStream fs = new FileInputStream(file);
-    System.out.println(fs.available());
+    log.info(fs.available());
     fs.close();
 
     Map<String, String> testMap = new HashMap<String, String>();
     testMap.put("058110418p033", "1");
 
     if (testMap.get("058110418P033") != null) {
-      System.out.println("Yes it has");
+      log.info("Yes it has");
     }
     /*
      * arrayDiff(); setsDiff(); arrayCopy(); // indexOf, subString, CharAt, toBinaryString javaFunctions();
@@ -77,7 +100,7 @@ public class JavaBasics {
 
     List<String> ss = new ArrayList<String>();
     for (String s : ss) {
-      System.out.println("Yes");
+      log.info("Yes");
     }
 
     javaKeywords();
@@ -93,14 +116,14 @@ public class JavaBasics {
       if (str.equalsIgnoreCase("orange")) {
         continue;
       }
-      System.out.println(str);
+      log.info(str);
 
     }
 
     // Trim
     String validationForTrim = "23343";
     if (validationForTrim.length() != validationForTrim.trim().length()) {
-      System.out.println("Space existing.." + validationForTrim.trim());
+      log.info("Space existing.." + validationForTrim.trim());
     }
   }
 
@@ -114,43 +137,43 @@ public class JavaBasics {
     String zigbeeMacId = "6F0034343";
     if (zigbeeMacId.indexOf("6F00", 0) == 0) {
       zigbeeMacId = "000D" + zigbeeMacId;
-      System.out.println("Zigbee Index : " + zigbeeMacId);
+      log.info("Zigbee Index : " + zigbeeMacId);
     }
 
-    System.out.println("Parse int " + Integer.parseInt("152.00".substring(0, "152.00".indexOf("."))));
+    log.info("Parse int " + Integer.parseInt("152.00".substring(0, "152.00".indexOf("."))));
     String testSplit = "Hier3";
     List<String> hierarchyNames = null;
 
     hierarchyNames = Lists.newArrayList(Splitter.on("$$").split(testSplit));
-    System.out.println(hierarchyNames.get(0));
+    log.info(hierarchyNames.get(0));
 
     String sub = "10111";
     char c = sub.charAt(sub.length() - 1);
 
-    System.out.println("Substring.." + Character.getNumericValue(c));
+    log.info("Substring.." + Character.getNumericValue(c));
 
     int i = 40;
     // Only unsigned integer from 0 - 255 converts to binaryString
-    System.out.println("Integer to binary String " + Integer.toBinaryString(i));
+    log.info("Integer to binary String " + Integer.toBinaryString(i));
 
     String byt = String.format("%16s", Integer.toBinaryString(i)).replace(' ', '0');
 
     int j = 36;
     // Only unsigned integer from 0 - 255 converts to binaryString
-    System.out.println("Integer to binary String " + Integer.toBinaryString(j));
+    log.info("Integer to binary String " + Integer.toBinaryString(j));
 
     String byt1 = String.format("%16s", Integer.toBinaryString(i)).replace(' ', '0');
 
-    System.out.println(byt1.substring(13, byt1.length()));
+    log.info(byt1.substring(13, byt1.length()));
 
     int status = Integer.parseInt(byt.substring(13, byt.length()), 2);
 
-    System.out.println("Integer to binary String " + byt);
+    log.info("Integer to binary String " + byt);
 
-    System.out.println("Integer to binary Status " + status);
+    log.info("Integer to binary Status " + status);
 
     String character = "10101";
-    System.out.println("Character at index " + character.charAt(0));
+    log.info("Character at index " + character.charAt(0));
   }
 
   private static void arrayCopy() {
@@ -160,7 +183,7 @@ public class JavaBasics {
     // Destination position to copy
     System.arraycopy(copyFrom, 1, copyTo, 0, 2);
 
-    System.out.println("A2 array " + Arrays.toString(copyTo));
+    log.info("A2 array " + Arrays.toString(copyTo));
   }
 
   private static void setsDiff() {
@@ -169,7 +192,7 @@ public class JavaBasics {
 
     Set<String> diff = Sets.difference(secondSet, firstSet);
 
-    System.out.println("Sets difference " + diff.toString());
+    log.info("Sets difference " + diff.toString());
   }
 
   private static void arrayDiff() {
@@ -180,6 +203,6 @@ public class JavaBasics {
     List<String> secondList = Arrays.asList(ar1);
 
     List<String> diff = ListUtils.subtract(secondList, firstList);
-    System.out.println("List Difference.." + diff.toString());
+    log.info("List Difference.." + diff.toString());
   }
 }
