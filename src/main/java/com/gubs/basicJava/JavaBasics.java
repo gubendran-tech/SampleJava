@@ -34,6 +34,8 @@ public class JavaBasics {
 
   public static void main(String[] args) throws IOException, ParseException {
 
+    log.error("Testing Error Logger level..");
+
     Double d = -1D;
     if (d >= 0D) {
       log.info("IF..");
