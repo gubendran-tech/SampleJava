@@ -17,24 +17,59 @@ import org.apache.log4j.Logger;
  * @author gubs
  * 
  */
-public class RestfulJavaClientUsingURL {
+public class HttpURL {
 
-  private static final Logger log = Logger.getLogger(RestfulJavaClientUsingURL.class);
+  private static final Logger log = Logger.getLogger(HttpURL.class);
+
+  private static final String USER_AGENT = "Mozilla/5.0";
 
   /**
    * @param args
    */
   // http://172.26.103.51:8080/SMSService/rest/services/getData
   public static void main(String[] args) {
-    // RestPOSTMethod();
-    // restGetMethod();
-    restPOSTMethodIview();
-    // restPostMethod();
-    // restPostMethodToDownloadFile();
+
+    // http://www.mkyong.com/java/how-to-send-http-request-getpost-in-java/
+
+    // postMethodUsingHttpUrlForDownloadImage();
+    postMethodUsingHttpUrl();
+    getMethodUsingHttpUrl();
 
   }
 
-  private static void restPostMethodToDownloadFile() {
+  private static void getMethodUsingHttpUrl() {
+    String url = "http://www.google.com/search?q=mkyong";
+    
+    try {
+      URL urlObj = new URL(url);
+      HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
+      conn.setDoOutput(true);
+
+      // optional, default is GET
+      conn.setRequestMethod("GET");
+
+      // Add request header
+      conn.setRequestProperty("User-Agent", USER_AGENT);
+
+      int responseCode = conn.getResponseCode();
+      log.info("Response Code.." + responseCode);
+
+      BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+      String currentLine;
+      while ((currentLine = br.readLine()) != null) {
+        log.info("Response Content..." + currentLine);
+      }
+    } catch (MalformedURLException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+  }
+
+  private static void postMethodUsingHttpUrlForDownloadImage() {
 
     try {
       URL url = new URL("http://localhost:8080/SMSService/rest/services/downloadAttachment");
@@ -71,7 +106,7 @@ public class RestfulJavaClientUsingURL {
 
   }
 
-  private static void restPOSTMethodIview() {
+  private static void postMethodUsingHttpUrl() {
     try {
       URL url = new URL("http://172.26.103.51:8080/SMSService/rest/services/getData");
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -97,68 +132,6 @@ public class RestfulJavaClientUsingURL {
       }
       br.close();
       conn.disconnect();
-
-    } catch (MalformedURLException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-  }
-
-  private static void restGetMethod() {
-    try {
-      URL url = new URL("http://localhost:8080/CXFRestfulTutorial/rest/getName");
-      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-      conn.setDoOutput(true);
-      conn.setRequestMethod("GET");
-      conn.setRequestProperty("Content-Type", "application/json");
-
-      String requestData = "{\"requestType\":\"dynaMapManager\",\"DynaMapManagerRequestType\":\"GET_MAP_DEVICELIST_FOR_USER\",\"userId\":\"257\",\"custId\":24}";
-      // OutputStream os = conn.getOutputStream();
-      // os.write(requestData.getBytes());
-      // os.flush();
-
-      /*
-       * if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) { throw new
-       * RuntimeException("Failed : HTTP error code : " + conn.getResponseCode()); }
-       */
-
-      BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-      String output;
-      while ((output = br.readLine()) != null) {
-        log.info(output);
-      }
-      conn.disconnect();
-
-    } catch (MalformedURLException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-  }
-
-  private static void restPostMethod() {
-    try {
-      URL url = new URL("http://localhost:8080/CXFRestfulTutorial/rest/changeName");
-      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-      conn.setDoOutput(true);
-      conn.setRequestMethod("POST");
-      conn.setRequestProperty("Content-Type", "application/json");
-
-      String requestData = "{\"Student\":{\"name\":\"gubs\"}}";
-      OutputStream os = conn.getOutputStream();
-      os.write(requestData.getBytes());
-      os.flush();
-
-      BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-      String output;
-      while ((output = br.readLine()) != null) {
-        log.info(output);
-      }
 
     } catch (MalformedURLException e) {
       // TODO Auto-generated catch block
