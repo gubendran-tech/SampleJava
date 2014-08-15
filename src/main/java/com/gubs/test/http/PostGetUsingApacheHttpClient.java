@@ -76,10 +76,11 @@ public class PostGetUsingApacheHttpClient {
   private static void httpPostExample() throws ParseException, IOException {
     DefaultHttpClient httpClient = new DefaultHttpClient();
 
-    HttpPost httpPost = new HttpPost("http://172.26.103.51:8080/SMSService/rest/services/getData");
+    HttpPost httpPost = new HttpPost("http://172.26.103.54:8080/SMSService/rest/services/getData");
 
     httpPost.setHeader("User-Agent", USER_AGENT);
     httpPost.setHeader("Content-Type", "application/json");
+    httpPost.setHeader("Origin", "172.26.103.53");
 
     HttpResponse response = null;
 
