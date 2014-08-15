@@ -1,6 +1,8 @@
 package com.gubs.test.http;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -9,25 +11,28 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
+public class PostGetUsingApacheHttpClient {
 
-public class TestHttpPost {
-
-  private static final Logger log = Logger.getLogger(TestHttpPost.class);
+  private static final Logger log = Logger.getLogger(PostGetUsingApacheHttpClient.class);
+  private static final String USER_AGENT = "Mozilla/5.0";
 
   /**
    * @param args
    */
   public static void main(String[] args) {
+    // http://www.mkyong.com/java/how-to-send-http-request-getpost-in-java/
+
     // httpPostMethodForClick();
     try {
-      httpPostMethodForRestJSON();
+      httpPostExample();
+      // httpGetExample();
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -37,10 +42,44 @@ public class TestHttpPost {
     }
   }
 
-  private static void httpPostMethodForRestJSON() throws ParseException, IOException {
+  private static void httpGetExample() {
+    DefaultHttpClient httpClient = new DefaultHttpClient();
+
+    HttpGet httpGet = new HttpGet("http://www.google.com/search?q=developer");
+    
+    HttpResponse httpResponse = null;
+    
+    try {
+      httpResponse = httpClient.execute(httpGet);
+      int statusCode = httpResponse.getStatusLine().getStatusCode();
+      if (statusCode == 200) {
+        // log.info("1st way to get Response content.." + EntityUtils.toString(httpResponse.getEntity()));
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
+        String currentLine = null;
+        while ((currentLine = br.readLine()) != null) {
+          log.info("2nd way to get Response Content.." + currentLine);
+        }
+      }
+    } catch (ClientProtocolException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    httpClient.getConnectionManager().shutdown();
+
+  }
+
+  private static void httpPostExample() throws ParseException, IOException {
     DefaultHttpClient httpClient = new DefaultHttpClient();
 
     HttpPost httpPost = new HttpPost("http://172.26.103.51:8080/SMSService/rest/services/getData");
+
+    httpPost.setHeader("User-Agent", USER_AGENT);
+    httpPost.setHeader("Content-Type", "application/json");
 
     HttpResponse response = null;
 
@@ -58,17 +97,21 @@ public class TestHttpPost {
 
     try {
       response = httpClient.execute(httpPost);
+
+      if (response.getStatusLine().getStatusCode() == 200) {
+        log.info("httpPostExamples.." + EntityUtils.toString(response.getEntity()));
+
+        for (org.apache.http.Header header : response.getAllHeaders()) {
+          log.info("httpPostExample Headers..." + header.toString());
+        }
+
+      }
     } catch (ClientProtocolException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
-    }
-
-    if (response != null) {
-      log.info("Response Header.." + Arrays.asList(response.getAllHeaders()).toString());
-      log.info("Response String.." + EntityUtils.toString(response.getEntity()));
     }
 
     httpClient.getConnectionManager().shutdown();
@@ -83,7 +126,7 @@ public class TestHttpPost {
     PostMethod postMethod = new PostMethod(url);
     postMethod.setRequestHeader("Content-type", "text/xml; charset=ISO-8859-1");
 
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 1; i++) {
 
       log.info("I " + i);
       try {

@@ -9,6 +9,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -16,10 +18,12 @@ import org.apache.log4j.Logger;
  * 
  * @author gubs
  * 
+ *         HTTP Post and HTTP GET using URL
+ * 
  */
-public class HttpURL {
+public class HttpPostGetUsingURL {
 
-  private static final Logger log = Logger.getLogger(HttpURL.class);
+  private static final Logger log = Logger.getLogger(HttpPostGetUsingURL.class);
 
   private static final String USER_AGENT = "Mozilla/5.0";
 
@@ -34,7 +38,6 @@ public class HttpURL {
     // postMethodUsingHttpUrlForDownloadImage();
     postMethodUsingHttpUrl();
     getMethodUsingHttpUrl();
-
   }
 
   private static void getMethodUsingHttpUrl() {
@@ -125,14 +128,21 @@ public class HttpURL {
        * RuntimeException("Failed : HTTP error code : " + conn.getResponseCode()); }
        */
 
+      Map<String, List<String>> headerFields = conn.getHeaderFields();
+      log.info("Header Fields..");
+      for (Map.Entry<String, List<String>> headerField : headerFields.entrySet()) {
+        log.info("Key.." + headerField.getKey() + "Values.." + headerField.getValue().toString());
+      }
+      
       BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
       String output;
       while ((output = br.readLine()) != null) {
         log.info(output);
       }
       br.close();
+      
       conn.disconnect();
-
+      
     } catch (MalformedURLException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
