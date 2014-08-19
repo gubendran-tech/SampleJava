@@ -34,6 +34,9 @@ public class JavaBasics {
 
   public static void main(String[] args) throws IOException, ParseException {
 
+    String[] arr = new String[] { "a", "b" };
+    log.info("Array.." + Arrays.asList(arr).toString());
+
     log.error("Testing Error Logger level..");
 
     Double d = -1D;
