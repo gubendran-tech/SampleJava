@@ -29,7 +29,9 @@ public class SFTPUtils {
   public static void main(String[] args) {
     String localFullPathWithFileName = "/home/gubs/pseg_energy_by_device/2012-01-01.csv";
     
-    String ftpDetails = "sftp:$ftp-2014@172.26.103.47:22:/home/sftp/reports";
+    // String ftpDetails =
+    // "smsreports:smsreports@172.26.103.80:22:/smsreports/0024/IntelliView/DailyExtracts/";
+    String ftpDetails = "smsreports:smsreports@172.30.1.121:22:/smsreports/0024/IntelliView/DailyExtracts/";
 
     // String ftpDetails =
     // "smsreports:smsreports@172.30.1.121:/smsreports/IntelliView/DDVReports/pseg_energy_by_device";
@@ -37,6 +39,7 @@ public class SFTPUtils {
 
     String[] ftpDetailsArray = ftpDetails.split(":");
     String[] ftpHosts = ftpDetailsArray[1].split("@");
+
 
 
     Map<String, String> sftpDetails = new HashMap<String, String>();
@@ -86,13 +89,20 @@ public class SFTPUtils {
     String remoteFilePath = sftpDetails.get("remoteFilePath");
     String remoteFileName = sftpDetails.get("remoteFileName");
 
+    String privateKey = "/home/gubs/Desktop/prod/id_rsa";
+
     JSch jsch;
     try {
 
       jsch = new JSch();
       session = jsch.getSession(userName, hostName, portName);
 
-      session.setPassword(password);
+      // Using id_rsa key
+      jsch.addIdentity(privateKey);
+
+      // Using password
+      // session.setPassword(password);
+
       java.util.Properties config = new java.util.Properties();
       config.put("StrictHostKeyChecking", "no");
       session.setConfig(config);

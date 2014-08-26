@@ -1,4 +1,4 @@
-package com.gubs.basicJava;
+package com.gubs.utils;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

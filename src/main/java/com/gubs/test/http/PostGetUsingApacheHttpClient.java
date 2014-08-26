@@ -30,16 +30,37 @@ public class PostGetUsingApacheHttpClient {
     // http://www.mkyong.com/java/how-to-send-http-request-getpost-in-java/
 
     // httpPostMethodForClick();
+    httpPostMethodForServletSample();
     try {
-      httpPostExample();
+      // httpPostExample();
       // httpGetExample();
     } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
+
+  private static void httpPostMethodForServletSample() {
+    HttpClient httpClient = new HttpClient();
+
+    PostMethod postMethod = new PostMethod("http://localhost:8080/ServletExamples/servletSample");
+    postMethod.setParameter("firstName", "Gubendran");
+    postMethod.setParameter("lastName", "Lakshmanan");
+    postMethod.setParameter("ForwardedURL", "intelliview.qa.petrasolar.com");
+
+    try {
+      int statusCode = httpClient.executeMethod(postMethod);
+    } catch (HttpException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+
   }
 
   private static void httpGetExample() {
@@ -127,7 +148,7 @@ public class PostGetUsingApacheHttpClient {
     PostMethod postMethod = new PostMethod(url);
     postMethod.setRequestHeader("Content-type", "text/xml; charset=ISO-8859-1");
 
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 10; i++) {
 
       log.info("I " + i);
       try {
