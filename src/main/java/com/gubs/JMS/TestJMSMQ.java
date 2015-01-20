@@ -10,7 +10,7 @@ import javax.jms.QueueBrowser;
 import javax.jms.Session;
 
 import org.springframework.jms.core.BrowserCallback;
-import org.springframework.jms.core.JmsOperations;
+import org.springframework.jms.core.JmsTemplate;
 
 /**
  * @author gubs
@@ -18,17 +18,18 @@ import org.springframework.jms.core.JmsOperations;
  */
 public class TestJMSMQ {
 
-  private JmsOperations smsJmsTemplate;
+  private JmsTemplate smsJmsTemplate;
 
-  public JmsOperations getSmsJmsTemplate() {
-    return smsJmsTemplate;
-  }
 
-  public void setSmsJmsTemplate(JmsOperations smsJmsTemplate) {
-    this.smsJmsTemplate = smsJmsTemplate;
-  }
+  public JmsTemplate getSmsJmsTemplate() {
+	return smsJmsTemplate;
+}
 
-  /**
+public void setSmsJmsTemplate(JmsTemplate smsJmsTemplate) {
+	this.smsJmsTemplate = smsJmsTemplate;
+}
+
+/**
    * @param args
    */
   public static void main(String[] args) {
