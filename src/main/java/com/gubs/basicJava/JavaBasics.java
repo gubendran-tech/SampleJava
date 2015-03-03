@@ -12,9 +12,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.TimeZone;
 
 import org.apache.commons.collections.ListUtils;
+import org.apache.hadoop.io.Text;
 import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
 
@@ -34,6 +36,13 @@ public class JavaBasics {
 
   public static void main(String[] args) throws IOException, ParseException {
 
+	  Text text = new Text();
+	  text.set("gubs");
+	  
+	StringTokenizer tokens = new StringTokenizer("Gubendran	Lakshmanan", "\t");
+	while(tokens.hasMoreTokens()) {
+		System.out.println(tokens.nextToken());
+	}
     String[] arr = new String[] { "a", "b" };
     log.info("Array.." + Arrays.asList(arr).toString());
 
