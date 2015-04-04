@@ -36,6 +36,7 @@ public class JavaBasics {
 
   public static void main(String[] args) throws IOException, ParseException {
 
+	  System.out.println("gubs".charAt(0));
 	  Text text = new Text();
 	  text.set("gubs");
 	  
