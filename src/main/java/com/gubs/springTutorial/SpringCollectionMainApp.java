@@ -22,10 +22,8 @@ public class SpringCollectionMainApp implements ApplicationContextAware {
    * @param args
    */
   public static void main(String[] args) {
-    ApplicationContext applicationContext = new ClassPathXmlApplicationContext("springCollectionsJdbc.xml");
+    ApplicationContext applicationContext = new ClassPathXmlApplicationContext("springCollections.xml");
     SpringCollection springCollection = (SpringCollection) applicationContext.getBean("springCollection");
-
-    springCollection.updateTelemetryCommandJobStatus();
 
     log.info("List from Spring.." + springCollection.getAddressList().toString());
 
