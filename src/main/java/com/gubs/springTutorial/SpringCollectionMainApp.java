@@ -1,6 +1,10 @@
 package com.gubs.springTutorial;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -41,12 +45,25 @@ public class SpringCollectionMainApp implements ApplicationContextAware {
     String value = springCollection.getAddressProp().getProperty("one");
     log.info("Property Values.." + value);
 
+    // Constructing array of hashMaps
+    List<String> headers = springCollection.getCsvHeaders();
+    
+    List<Map<String, String>> csvHeadersResults = new ArrayList<Map<String, String>>();
+    for (String header: headers) {
+    	if (header != null && header.length() > 0 && header.indexOf(":") >= 1) {
+    		Map<String, String> headerHash = new HashMap<String, String>();
+    		String[] headerArr = header.split(":");
+        	headerHash.put("key", headerArr[0]);
+        	headerHash.put("label", headerArr[1]);
+        	csvHeadersResults.add(headerHash);	
+    	}
+    }
+    System.out.println("csvHeadersResults.." + csvHeadersResults.toString());
   }
 
   @Override
   public void setApplicationContext(ApplicationContext arg0) throws BeansException {
     // TODO Auto-generated method stub
-
   }
 
 }

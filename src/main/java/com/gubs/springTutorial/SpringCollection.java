@@ -17,6 +17,7 @@ public class SpringCollection {
 	private List<String> addressList;
 	private Set<String> addressSet;
 	private Map<String, String> addressMap;
+	private List<String> csvHeaders;
 	private Properties addressProp;
 
 	public List<String> getAddressList() {
@@ -49,5 +50,13 @@ public class SpringCollection {
 
 	public void setAddressProp(Properties addressProp) {
 		this.addressProp = addressProp;
+	}
+
+	public List<String> getCsvHeaders() {
+		return csvHeaders;
+	}
+
+	public void setCsvHeaders(List<String> csvHeaders) {
+		this.csvHeaders = csvHeaders;
 	}
 }

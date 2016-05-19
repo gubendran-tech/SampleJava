@@ -37,6 +37,13 @@
       	</set>
       </property>
       
+      <property name="csvHeaders">
+      	<list>
+      	  <value>serialNumber:Serial Number</value>
+      	  <value>customerName:Customer</value>
+      	</list>
+      </property>
+      
  </bean>
  
  </beans>
